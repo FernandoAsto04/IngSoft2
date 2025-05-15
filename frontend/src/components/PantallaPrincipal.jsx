@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const trabajos = [
   {
@@ -18,6 +19,8 @@ const trabajos = [
 ];
 
 export default function PantallaPrincipal({ onLogout }) {
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -39,8 +42,6 @@ export default function PantallaPrincipal({ onLogout }) {
         }}
       >
         <div>
-          {/* Aquí quité el logo */}
-
           {/* User info */}
           <div
             style={{
@@ -131,13 +132,14 @@ export default function PantallaPrincipal({ onLogout }) {
         {/* Top buttons */}
         <div style={{ marginBottom: "40px", display: "flex", gap: "18px" }}>
           {[
-            { icon: "🔍", label: "Buscar Profesor" },
-            { icon: "🔍", label: "Buscar Tema" },
-            { icon: "📊", label: "Ver estadísticas" },
-            { icon: "📁", label: "Ver trabajos" },
-          ].map(({ icon, label }) => (
+            { icon: "🔍", label: "Buscar Profesor", onClick: () => {} },
+            { icon: "🔍", label: "Buscar Tema", onClick: () => navigate("/buscar-tema") },
+            { icon: "📊", label: "Ver estadísticas", onClick: () => {} },
+            { icon: "📁", label: "Ver trabajos", onClick: () => {} },
+          ].map(({ icon, label, onClick }) => (
             <button
               key={label}
+              onClick={onClick}
               style={{
                 backgroundColor: "#ff7f00",
                 border: "none",
