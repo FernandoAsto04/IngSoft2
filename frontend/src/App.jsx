@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Login from "./components/Login";
+import PantallaPrincipal from "./components/PantallaPrincipal";
 
-function App() { 
+function App() {
+  const [logueado, setLogueado] = useState(false);
+
   return (
     <div>
-      <Login />
+      {logueado ? (
+        <PantallaPrincipal onLogout={() => setLogueado(false)} />
+      ) : (
+        <Login onLogin={() => setLogueado(true)} />
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
