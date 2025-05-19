@@ -19,6 +19,7 @@
     justify-content: left; 
     align-items: left; 
     min-height: 100vh;
+    background-size: cover;
 }
   
   .login-box {
