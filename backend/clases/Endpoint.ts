@@ -18,4 +18,4 @@ class Endpoint {
     }
 }
 
-module.exports = Endpoint;
+export default Endpoint;
