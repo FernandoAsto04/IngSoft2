@@ -4,9 +4,14 @@ import { Trabajo } from "./Trabajo.js"
 
 export const TipoTrabajo = sequelize.define(
     "TipoTrabajo", {
-        idTipoTrabajo: DataTypes.INTEGER,
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         nombre: DataTypes.STRING,
     }, {
+        timestamps:false,
         freezeTableName: true
     }
 );

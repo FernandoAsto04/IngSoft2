@@ -30,7 +30,7 @@ async function verificarConexion(){
     try {
         await sequelize.authenticate();
         console.log("Conexión a la DB exitosa")
-        await sequelize.sync({force:true}); //Sincroniza los cambios 
+        await sequelize.sync({alter:true}); //Sincroniza los cambios 
         //Una vez la tabla ya tenga datos, en vez de force debe ser alter. Asi no se borran los datos
     } catch (error) {
         console.error("Ocurrió un error al conectarse a la DB", error)

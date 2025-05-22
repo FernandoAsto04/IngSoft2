@@ -3,7 +3,11 @@ import { sequelize } from "../database/database.js";
 
 export const AreaProfesor = sequelize.define(
     "AreaProfesor", {
-        idAreaProfesor: DataTypes.INTEGER,
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
     }, {
         freezeTableName: true
     }

@@ -6,13 +6,18 @@ import { Profesor } from "./Profesor.js";
 
 export const Usuario = sequelize.define(
     "Usuario", {
-        idUsuario: DataTypes.INTEGER,
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         nombres: DataTypes.STRING,
         apellidos: DataTypes.STRING,
         email: DataTypes.STRING,
         password: DataTypes.STRING,
-        rol: DataTypes.INTEGER,
+        rol: DataTypes.STRING,
     }, {
+        timestamps: false,
         freezeTableName: true
     }
 );

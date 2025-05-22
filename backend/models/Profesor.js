@@ -5,8 +5,13 @@ import { Area } from "./Area.js";
 
 export const Profesor = sequelize.define(
     "Profesor", {
-        idProfesor: DataTypes.INTEGER,
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
     }, {
+        timestamps: false,
         freezeTableName: true
     }
 );

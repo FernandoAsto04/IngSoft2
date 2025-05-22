@@ -3,9 +3,14 @@ import { sequelize } from "../database/database.js";
 
 export const Alumno = sequelize.define(
     "Alumno", {
-        idAlumno: DataTypes.INTEGER,
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         codAlumno: DataTypes.INTEGER,
     }, {
+        timestamps: false,
         freezeTableName: true
     }
 );

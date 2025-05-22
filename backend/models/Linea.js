@@ -1,11 +1,28 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
+import { Area } from "./Area.js";
 
 export const Linea = sequelize.define(
     "Linea", {
-        idLinea: DataTypes.INTEGER,
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         nombre: DataTypes.STRING,
     }, {
+        timestamps:false,
         freezeTableName: true
     }
 );
+
+//Relacion Area - Linea
+Area.hasMany(Linea, {
+    foreignKey: "Areaid",
+    sourceKey: "id"
+});
+
+Linea.belongsTo(Area, {
+    foreignKey: "Areaid",
+    targetKey: "id"
+});

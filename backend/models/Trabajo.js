@@ -18,6 +18,7 @@ export const Trabajo = sequelize.define(
         palabrasClave: DataTypes.STRING,
         ciclo: DataTypes.STRING,
     }, {
+        timestamps:false,
         freezeTableName: true //Para que se mantenga el nombre de la tabla
     }
 );

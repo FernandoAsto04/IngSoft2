@@ -3,11 +3,16 @@ import { sequelize } from "../database/database.js";
 import { Profesor } from "./Profesor.js";
 export const Asesoria = sequelize.define(
     "Asesoria", {
-        idAsesoria: DataTypes.INTEGER,
-        horario: DataTypes.DATE,
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        horario: DataTypes.STRING,
         lugar: DataTypes.STRING,
         link: DataTypes.STRING,
     }, {
+        timestamps:false,
         freezeTableName: true
     }
 );
