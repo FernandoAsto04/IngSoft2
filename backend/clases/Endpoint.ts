@@ -1,8 +1,8 @@
-class Endpoint {
+import { Request, Response } from "express";
 
-    
-    get() {
-        return "GET ejecutado";
+class Endpoint {
+    get(req: Request, res: Response ) {
+        res.send("GET ejecutado")
     }
 
     post() {

@@ -6,6 +6,7 @@ class Alumno extends Usuario {
 
     constructor(nombres: string, apellidos: string, email: string, password: string, rol: string, codAlumno: string) {
         super(nombres, apellidos, email, password, rol);
+        this.codAlumno = codAlumno;
     }
 
     iniciarSesion(): void {

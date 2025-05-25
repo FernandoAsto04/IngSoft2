@@ -1,4 +1,5 @@
 class Area {
+    
     nombre: string;
     
     constructor(nombre:string) {
