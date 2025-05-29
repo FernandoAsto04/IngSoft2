@@ -132,7 +132,7 @@ export default function PantallaPrincipal({ onLogout }) {
         {/* Top buttons */}
         <div style={{ marginBottom: "40px", display: "flex", gap: "18px" }}>
           {[
-            { icon: "🔍", label: "Buscar Profesor", onClick: () => {} },
+            { icon: "🔍", label: "Buscar Profesor", onClick: () => navigate("/buscarprofe") },
             { icon: "🔍", label: "Buscar Tema", onClick: () => navigate("/buscar-tema") },
             { icon: "📊", label: "Ver estadísticas", onClick: () => {} },
             { icon: "📁", label: "Ver trabajos", onClick: () => {} },
