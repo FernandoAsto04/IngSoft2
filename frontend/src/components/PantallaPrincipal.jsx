@@ -105,6 +105,25 @@ export default function PantallaPrincipal({ onLogout }) {
           </div>
         </div>
 
+        {/* Botón de Subir trabajo */}
+        <button
+          onClick={() => navigate("/nuevotrabajo")}
+          style={{
+            backgroundColor: "#5f2f80",
+            color: "#fff",
+            fontWeight: "600",
+            padding: "10px 18px",
+            borderRadius: "10px",
+            border: "none",
+            fontSize: "14px",
+            cursor: "pointer",
+            marginTop: "16px",
+            width: "100%",
+          }}
+        >
+          ➕ Subir trabajo
+        </button>
+
         {/* Cerrar sesión button */}
         <button
           onClick={onLogout}

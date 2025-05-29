@@ -7,6 +7,7 @@ import BuscarTema from "./components/BuscarTema";
 import BuscarProfesor from "./components/BuscaProfesor";
 import ListaProfesores from "./components/ResultProfe";
 import ListaTemas from "./components/ResultTema";
+import FormularioTrabajo from "./components/SubirTrabajo";
 
 function App() {
   const [logueado, setLogueado] = useState(false);
@@ -23,6 +24,7 @@ function App() {
         <Route path="/buscar-tema" element={<BuscarTema />} />
         <Route path="/resultprofes" element={<ListaProfesores/>} />
         <Route path="/resultemas" element={<ListaTemas/>} />
+        <Route path="/nuevotrabajo" element={<FormularioTrabajo/>} />
         {/* Si no hay coincidencia redirigir a "/" */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
