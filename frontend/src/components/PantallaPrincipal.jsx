@@ -1,41 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
-const trabajos = [
-{
-  titulo: "Optimización de Algoritmos para la Solución de Problemas Computacionales",
-  fecha: "15 May 2025",
-  abstract:
-    "Este trabajo presenta un enfoque para el diseño y optimización de algoritmos aplicados a la resolución de problemas complejos en sistemas computacionales. Se analizan distintas estrategias algorítmicas y su impacto en la eficiencia computacional.",
-  temas: ["Algoritmos y sistemas computacionales", "Diseño de algoritmos"],
-},
-{
-  titulo: "Aplicación de Minería y Simulación de Procesos en la Gestión Organizacional",
-  fecha: "12 May 2025",
-  abstract:
-    "El estudio explora cómo las tecnologías emergentes y la minería de procesos pueden mejorar la toma de decisiones dentro de las organizaciones. Se emplean técnicas de simulación y modelos de computación aplicada para optimizar procesos empresariales.",
-  temas: ["Tecnologías y Gestión organizacional", "Minería de procesos, Simulación de procesos, Computación Aplicada"],
-},
-{
-  titulo: "Estrategias para la Sostenibilidad en Sistemas de Tecnologías de Información",
-  fecha: "12 May 2025",
-  abstract:
-    "Este trabajo analiza el impacto ambiental de los sistemas de TI y propone estrategias sostenibles para su desarrollo y operación. Se consideran criterios de eficiencia energética, reciclaje de hardware y prácticas responsables en la gestión de datos.",
-  temas: ["Sistemas de TI", "Sostenibilidad en TI"],
-},
-{
-  titulo: "Diseño de Interfaces para la Mejora de la Experiencia Humano-Computadora",
-  fecha: "12 May 2025",
-  abstract:
-    "El presente estudio se enfoca en la interacción humano-media y el diseño centrado en el usuario. Se proponen modelos de interfaz que mejoran la experiencia de usuario aplicando principios de HCI y pruebas de usabilidad en contextos reales.",
-  temas: ["Interacción Humano-media", "HCI (Interacción Humano-Computadora)"],
-},
-
-
-];
+import { useTrabajos } from "./Trabajoscontext";
 
 export default function PantallaPrincipal({ onLogout }) {
   const navigate = useNavigate();
+  const { trabajos } = useTrabajos();
 
   return (
     <div
@@ -208,64 +177,68 @@ export default function PantallaPrincipal({ onLogout }) {
         </h2>
 
         {/* List of trabajos */}
-        {trabajos.map(({ titulo, fecha, abstract, temas }) => (
-          <section
-            key={titulo}
-            style={{
-              backgroundColor: "#fff2e0",
-              boxShadow: "0 0 20px rgb(255 127 0 / 0.15)",
-              borderRadius: "15px",
-              padding: "25px 40px",
-              marginBottom: "30px",
-              color: "#763200",
-            }}
-          >
-            <div
+        {trabajos.length === 0 ? (
+          <p>No hay trabajos registrados.</p>
+        ) : (
+          trabajos.map(({ titulo, fecha, abstract, temas }) => (
+            <section
+              key={titulo}
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "14px",
+                backgroundColor: "#fff2e0",
+                boxShadow: "0 0 20px rgb(255 127 0 / 0.15)",
+                borderRadius: "15px",
+                padding: "25px 40px",
+                marginBottom: "30px",
+                color: "#763200",
               }}
             >
-              <h3 style={{ fontWeight: "700", fontSize: "20px", margin: 0 }}>
-                {titulo}
-              </h3>
-              <span
+              <div
                 style={{
-                  backgroundColor: "#9c3a10",
-                  color: "white",
-                  borderRadius: "15px",
-                  padding: "8px 18px",
-                  fontWeight: "600",
-                  fontSize: "14px",
-                  whiteSpace: "nowrap",
-                  alignSelf: "center",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "14px",
                 }}
               >
-                {fecha}
-              </span>
-            </div>
-            <p
-              style={{
-                fontSize: "15px",
-                lineHeight: "1.4",
-                marginBottom: "15px",
-                color: "#6f4b30",
-              }}
-            >
-              Abstract <br />
-              {abstract}
-            </p>
-            {temas.map((tema, i) => (
+                <h3 style={{ fontWeight: "700", fontSize: "20px", margin: 0 }}>
+                  {titulo}
+                </h3>
+                <span
+                  style={{
+                    backgroundColor: "#9c3a10",
+                    color: "white",
+                    borderRadius: "15px",
+                    padding: "8px 18px",
+                    fontWeight: "600",
+                    fontSize: "14px",
+                    whiteSpace: "nowrap",
+                    alignSelf: "center",
+                  }}
+                >
+                  {fecha}
+                </span>
+              </div>
               <p
-                key={i}
-                style={{ fontWeight: "700", fontSize: "15px", margin: "2px 0" }}
+                style={{
+                  fontSize: "15px",
+                  lineHeight: "1.4",
+                  marginBottom: "15px",
+                  color: "#6f4b30",
+                }}
               >
-                {tema}
+                Abstract <br />
+                {abstract}
               </p>
-            ))}
-          </section>
-        ))}
+              {temas.map((tema, i) => (
+                <p
+                  key={i}
+                  style={{ fontWeight: "700", fontSize: "15px", margin: "2px 0" }}
+                >
+                  {tema}
+                </p>
+              ))}
+            </section>
+          ))
+        )}
       </main>
     </div>
   );
