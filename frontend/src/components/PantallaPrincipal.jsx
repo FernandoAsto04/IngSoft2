@@ -2,20 +2,36 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const trabajos = [
-  {
-    titulo: "TRABAJO DE PRUEBA 1",
-    fecha: "15 May 2025",
-    abstract:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    temas: ["Tema", "Tema"],
-  },
-  {
-    titulo: "TRABAJO DE PRUEBA 2",
-    fecha: "12 May 2025",
-    abstract:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    temas: ["Tema", "Tema"],
-  },
+{
+  titulo: "Optimización de Algoritmos para la Solución de Problemas Computacionales",
+  fecha: "15 May 2025",
+  abstract:
+    "Este trabajo presenta un enfoque para el diseño y optimización de algoritmos aplicados a la resolución de problemas complejos en sistemas computacionales. Se analizan distintas estrategias algorítmicas y su impacto en la eficiencia computacional.",
+  temas: ["Algoritmos y sistemas computacionales", "Diseño de algoritmos"],
+},
+{
+  titulo: "Aplicación de Minería y Simulación de Procesos en la Gestión Organizacional",
+  fecha: "12 May 2025",
+  abstract:
+    "El estudio explora cómo las tecnologías emergentes y la minería de procesos pueden mejorar la toma de decisiones dentro de las organizaciones. Se emplean técnicas de simulación y modelos de computación aplicada para optimizar procesos empresariales.",
+  temas: ["Tecnologías y Gestión organizacional", "Minería de procesos, Simulación de procesos, Computación Aplicada"],
+},
+{
+  titulo: "Estrategias para la Sostenibilidad en Sistemas de Tecnologías de Información",
+  fecha: "12 May 2025",
+  abstract:
+    "Este trabajo analiza el impacto ambiental de los sistemas de TI y propone estrategias sostenibles para su desarrollo y operación. Se consideran criterios de eficiencia energética, reciclaje de hardware y prácticas responsables en la gestión de datos.",
+  temas: ["Sistemas de TI", "Sostenibilidad en TI"],
+},
+{
+  titulo: "Diseño de Interfaces para la Mejora de la Experiencia Humano-Computadora",
+  fecha: "12 May 2025",
+  abstract:
+    "El presente estudio se enfoca en la interacción humano-media y el diseño centrado en el usuario. Se proponen modelos de interfaz que mejoran la experiencia de usuario aplicando principios de HCI y pruebas de usabilidad en contextos reales.",
+  temas: ["Interacción Humano-media", "HCI (Interacción Humano-Computadora)"],
+},
+
+
 ];
 
 export default function PantallaPrincipal({ onLogout }) {
