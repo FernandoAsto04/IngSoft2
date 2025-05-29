@@ -160,7 +160,7 @@ export default function BuscarTema() {
             boxShadow: "0 3px 8px rgba(255,127,0,0.8)",
             userSelect: "none",
           }}
-          onClick={() => alert("Buscando Trabajos con el filtro aplicado....")}
+          onClick={() => navigate("/resultemas")}
         >
           Buscar Tema
         </button>
