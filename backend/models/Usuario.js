@@ -14,7 +14,7 @@ export const Usuario = sequelize.define(
         nombres: DataTypes.STRING,
         apellidos: DataTypes.STRING,
         email: DataTypes.STRING,
-        password: DataTypes.STRING,
+        contrasenia: DataTypes.STRING,
         rol: DataTypes.STRING,
     }, {
         timestamps: false,
@@ -24,32 +24,32 @@ export const Usuario = sequelize.define(
 
 //Relacion Usuario - Alumno
 Usuario.hasMany(Alumno, { 
-    foreignKey: "usuarioId",
+    foreignKey: "Usuarioid",
     sourceKey: "id"
 });
 Alumno.belongsTo(Usuario, { 
-    foreignKey: "usuarioId",
+    foreignKey: "Usuarioid",
     targetKey: "id"
 });
 
 //Relacion Usuario - Profesor
 
 Usuario.hasMany(Profesor, { 
-    foreignKey: "usuarioId",
+    foreignKey: "Usuarioid",
     sourceKey: "id"
 });
 Profesor.belongsTo(Usuario, { 
-    foreignKey: "usuarioId",
+    foreignKey: "Usuarioid",
     targetKey: "id"
 });
 
 //Relacion Usuario - Administrador
 
 Usuario.hasMany(Administrador, { 
-    foreignKey: "usuarioId",
+    foreignKey: "Usuarioid",
     sourceKey: "id"
 });
 Administrador.belongsTo(Usuario, { 
-    foreignKey: "usuarioId",
+    foreignKey: "Usuarioid",
     targetKey: "id"
 });

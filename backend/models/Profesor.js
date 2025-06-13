@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-
 import { Area } from "./Area.js";
 
 export const Profesor = sequelize.define(
