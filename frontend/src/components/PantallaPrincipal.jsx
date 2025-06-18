@@ -93,6 +93,25 @@ export default function PantallaPrincipal({ onLogout }) {
           ➕ Subir trabajo
         </button>
 
+        {/* Botón de ver horarios */}
+        <button
+          onClick={() => navigate("/listaAsesorias")}
+          style={{
+            backgroundColor: "#5f2f80",
+            color: "#fff",
+            fontWeight: "600",
+            padding: "10px 18px",
+            borderRadius: "10px",
+            border: "none",
+            fontSize: "14px",
+            cursor: "pointer",
+            marginTop: "16px",
+            width: "100%",
+          }}
+        >
+           Ver horarios
+        </button>
+
         {/* Cerrar sesión button */}
         <button
           onClick={onLogout}

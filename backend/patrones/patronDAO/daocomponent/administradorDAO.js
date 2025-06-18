@@ -6,7 +6,7 @@ export class AdministradorDAO {
       return await Administrador.findAll();
     } catch (error) {
       return error.message;
-    }
+    } 
   }
 
   async insertarAdministrador(administrador) {

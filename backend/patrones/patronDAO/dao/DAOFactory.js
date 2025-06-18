@@ -7,6 +7,10 @@ import { LineaDAO } from "../daocomponent/lineaDAO";
 import { ProfesorDAO } from "../daocomponent/profesorDAO";
 import { TrabajoDAO } from "../daocomponent/trabajoDAO";
 import { UsuarioDAO } from "../daocomponent/usuarioDAO";
+import {AreaProfesorDAO} from "../daocomponent/areaProfesorDAO";
+import { TrabajoArticuloDAO } from "../daocomponent/trabajoArticuloDAO";
+import { TrabajoPaperDAO } from "../daocomponent/trabajoPaperDAO";
+import { TrabajoTesisDAO } from "../daocomponent/trabajoTesisDAO";
 
 
 class DAOFactory {
@@ -44,6 +48,22 @@ class DAOFactory {
 
   static getadministradorDAO() {
     return new AdministradorDAO();
+  }
+
+  static getareaprofesorDAO() {
+    return new AreaProfesorDAO();
+  }
+
+  static gettrabajoarticuloDAO() {
+    return new TrabajoArticuloDAO();
+  }
+
+  static gettrabajopaperDAO() {
+    return new TrabajoPaperDAO();
+  }
+
+  static gettrabajotesisDAO() {
+    return new TrabajoTesisDAO();
   }
 }
 

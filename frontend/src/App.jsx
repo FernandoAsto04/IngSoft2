@@ -9,6 +9,8 @@ import ListaProfesores from "./components/ResultProfe";
 import ListaTemas from "./components/ResultTema";
 import FormularioTrabajo from "./components/SubirTrabajo";
 import { TrabajosProvider } from "./components/Trabajoscontext";
+import ListaAsesorias from "./components/listaAsesoria";
+
 
 function App() {
   const [logueado, setLogueado] = useState(false);
@@ -30,6 +32,7 @@ function App() {
           <Route path="/resultprofes" element={<ListaProfesores />} />
           <Route path="/resultemas" element={<ListaTemas />} />
           <Route path="/nuevotrabajo" element={<FormularioTrabajo />} />
+          <Route path="/listaAsesorias" element={<ListaAsesorias/>} />
           {/* Si no hay coincidencia redirigir a "/" */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

@@ -16,7 +16,7 @@ import administradorroutes from './routes/administradorroutes.js';
 import {Administrador} from  "./models/Administrador.js";
 import {Alumno} from "./models/Alumno.js";
 import {Area} from "./models/Area.js";
-import {AreaProfesor} from "./models/AreaProfesor.js";
+
 import {Asesoria} from"./models/Asesoria.js";
 import {Estado} from "./models/Estado.js";
 import {Linea} from "./models/Linea.js";
@@ -73,7 +73,7 @@ app.use("/areas", arearoutes);
 app.use("/alumnos", alumnoroutes);
 app.use("/administrador", administradorroutes);
 
-//cambiar
+//falta areaprofesor y los tres tipos de trabajo
 
 
 
