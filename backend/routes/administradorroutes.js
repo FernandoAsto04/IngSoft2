@@ -1,7 +1,7 @@
 
 import express from 'express';
 import {
-  obtenerTodas,
+  obtenerTodos,
   obtenerPorId,
   crear,
   actualizar,
@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-router.get('/', obtenerTodas);
+router.get('/', obtenerTodos);
 router.get('/:id', obtenerPorId);
 router.post('/', crear);
 router.put('/:id', actualizar);
