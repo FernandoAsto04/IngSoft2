@@ -14,9 +14,17 @@ import ListaAsesorias from "./components/listaAsesoria";
 
 function App() {
   const [logueado, setLogueado] = useState(false);
+  const [usuario, setUsuario] = useState(null);
 
   if (!logueado) {
-    return <Login onLogin={() => setLogueado(true)} />;
+    return (
+      <Login 
+        onLogin={(usuarioRecibido) => {
+          setUsuario(usuarioRecibido);
+          setLogueado(true);  
+        }}
+      />
+    );
   }
 
   return (
@@ -25,8 +33,17 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<PantallaPrincipal onLogout={() => setLogueado(false)} />}
-          />
+            element={
+            <PantallaPrincipal 
+              onLogout={() => {
+                setLogueado(false);
+                setUsuario(null);
+              }}
+              usuario={usuario}
+            />
+          }
+        />
+          {/* Rutas para las diferentes funcionalidades */}  
           <Route path="/buscarprofe" element={<BuscarProfesor />} />
           <Route path="/buscar-tema" element={<BuscarTema />} />
           <Route path="/resultprofes" element={<ListaProfesores />} />

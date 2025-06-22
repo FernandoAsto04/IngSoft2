@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTrabajos } from "./Trabajoscontext";
 
-export default function PantallaPrincipal({ onLogout }) {
+export default function PantallaPrincipal({ onLogout, usuario }) {
   const navigate = useNavigate();
   const { trabajos } = useTrabajos();
 
@@ -63,18 +63,23 @@ export default function PantallaPrincipal({ onLogout }) {
             </div>
 
             <p style={{ fontWeight: "700", fontSize: "18px", margin: "10px 0 6px 0" }}>
-              Fernando Jesús <br /> Asto Mallqui
+              {usuario.nombres} <br /> {usuario.apellidos}
             </p>
             <p style={{ color: "#666", fontSize: "14px", margin: "4px 0" }}>
-              fernando.asto@ulima.edu.pe
+              {usuario.email}
             </p>
             <p style={{ color: "#999", fontSize: "14px", marginTop: "4px" }}>
               Ingeniería de Sistemas
+            </p>
+            <p style={{ color: "#999", fontSize: "14px", marginTop: "4px" }}>
+              {usuario.rol}
             </p>
           </div>
         </div>
 
         {/* Botón de Subir trabajo */}
+    {["ADMINISTRADOR", "PROFESOR"].includes(usuario.rol?.toUpperCase()) && (
+      <> 
         <button
           onClick={() => navigate("/nuevotrabajo")}
           style={{
@@ -92,7 +97,8 @@ export default function PantallaPrincipal({ onLogout }) {
         >
           ➕ Subir trabajo
         </button>
-
+      </>
+      )}    
         {/* Botón de ver horarios */}
         <button
           onClick={() => navigate("/listaAsesorias")}

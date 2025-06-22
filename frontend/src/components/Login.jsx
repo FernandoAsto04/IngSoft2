@@ -34,13 +34,6 @@ const Login = ({ onLogin }) => {
     alert("Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.");
   }
 };
-
-    /*if (email && password) {
-      onLogin();
-    } else {
-      alert("Por favor ingresa el correo y la contraseña.");
-    }
-  };*/
   
     return (
       <div className="pagina-login">
