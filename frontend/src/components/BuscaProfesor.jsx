@@ -1,76 +1,59 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function BuscarProfesor() {
+export default function BuscarProfesor({ usuario }) {
   const navigate = useNavigate();
 
-  const especialidades = [
-    "Tecnologías y Gestión organizacional",
+  const lineasInvestigacion = [
+    "Algoritmos y sistemas computacionales",
     "Aplicaciones en inteligencia artificial",
     "Interacción Humano-media",
-    "Algoritmos y sistemas computacionales",
+    "Tecnologías y Gestión organizacional",
   ];
+  const [selectedLineas, setSelectedLineas] = useState(new Set());
+  const [menuLineasAbierto, setMenuLineasAbierto] = useState(false);
 
-  const experiencias = [
-    "Docente Universitario",
-    "Investigador",
-    "Consultor",
-    "Desarrollador de Software",
-  ];
-
-  const [selectedEspecialidades, setSelectedEspecialidades] = useState(new Set(especialidades));
-  const [selectedExperiencias, setSelectedExperiencias] = useState(new Set(experiencias));
-
-  const [openMenu, setOpenMenu] = useState(null);
 
   function toggleSelection(setter, selectedSet, value) {
     const newSet = new Set(selectedSet);
-    if (newSet.has(value)) {
-      newSet.delete(value);
-    } else {
-      newSet.add(value);
-    }
+    newSet.has(value) ? newSet.delete(value) : newSet.add(value);
     setter(newSet);
-  }
-
-  function toggleMenu(menuName) {
-    setOpenMenu(openMenu === menuName ? null : menuName);
   }
 
   return (
     <div
       style={{
-        backgroundColor: "#fff",
+        backgroundImage: 'url("/img/fondo2.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         minHeight: "100vh",
-        padding: "30px",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        width: "100vw",
         display: "flex",
-        gap: "40px",
-        color: "#000",
+        padding: "30px 20px",
+        boxSizing: "border-box",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       }}
     >
-      {/* Sidebar (igual que antes) */}
+      {/* Sidebar */}
       <aside
         style={{
           width: "280px",
-          backgroundColor: "#ff7f00",
+          backgroundColor: "rgba(255,127,0,0.95)",
           borderRadius: "25px",
-          padding: "30px",
-          fontWeight: "700",
-          fontSize: "18px",
+          padding: "30px 20px",
           color: "#fff",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          boxShadow: "0 0 15px rgba(255,127,0,0.7)",
           justifyContent: "space-between",
+          alignItems: "center",
+          boxShadow: "0 0 15px rgba(0,0,0,0.15)",
         }}
       >
         <div style={{ textAlign: "center" }}>
           <div
             style={{
-              width: "120px",
-              height: "120px",
+              width: "100px",
+              height: "100px",
               backgroundColor: "#fff",
               borderRadius: "50%",
               marginBottom: "15px",
@@ -79,42 +62,21 @@ export default function BuscarProfesor() {
               alignItems: "center",
               color: "#ff7f00",
               fontWeight: "900",
-              fontSize: "50px",
+              fontSize: "42px",
               userSelect: "none",
-              marginLeft: "auto",
-              marginRight: "auto",
+              margin: "0 auto",
             }}
           >
-            P
+            {usuario.nombres?.charAt(0) || "?"}
           </div>
 
-          <p
-            style={{
-              marginBottom: "6px",
-              fontSize: "18px",
-              fontWeight: "700",
-              lineHeight: "1.2",
-              userSelect: "text",
-            }}
-          >
-            Fernando Jesús <br /> Asto Mallqui
+          <p style={{ fontSize: "18px", fontWeight: "700", lineHeight: "1.2" }}>
+            {usuario.nombres} <br /> {usuario.apellidos}
           </p>
-
-          <p
-            style={{
-              fontWeight: "500",
-              fontSize: "14px",
-              color: "#fff",
-              marginBottom: "15px",
-              userSelect: "text",
-            }}
-          >
-            fernando.asto@ulima.edu.pe
+          <p style={{ fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>
+            {usuario.email}
           </p>
-
-          <p style={{ fontWeight: "500", fontSize: "14px", color: "#fff" }}>
-            Ingeniería de Sistemas
-          </p>
+          <p style={{ fontSize: "14px", fontWeight: "500" }}>Ingeniería de Sistemas</p>
         </div>
 
         <button
@@ -128,28 +90,42 @@ export default function BuscarProfesor() {
             fontWeight: "700",
             fontSize: "16px",
             cursor: "pointer",
-            boxShadow: "0 3px 8px rgba(255,127,0,0.7)",
-            userSelect: "none",
+            boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
             marginTop: "30px",
-            alignSelf: "stretch",
+            width: "100%",
           }}
         >
           Volver
         </button>
       </aside>
 
-      {/* Main filtros */}
+      {/* Filtros */}
       <main
         style={{
           flex: 1,
-          backgroundColor: "#fff",
-          borderRadius: "15px",
-          padding: "30px",
-          boxShadow: "0 0 20px rgba(255,127,0,0.3)",
-          maxWidth: "700px",
+          marginLeft: "40px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          color: "#000",
         }}
       >
+        <h2
+          style={{
+            fontSize: "26px",
+            fontWeight: "700",
+            textAlign: "center",
+            marginBottom: "25px",
+            backgroundColor: "rgba(255,255,255,0.85)",
+            borderRadius: "15px",
+            padding: "16px",
+          }}
+        >
+          BUSCAR PROFESORES
+        </h2>
+
         <button
+          onClick={() => navigate("/resultprofes")}
           style={{
             backgroundColor: "#ff7f00",
             color: "#000",
@@ -158,27 +134,26 @@ export default function BuscarProfesor() {
             border: "none",
             fontWeight: "700",
             fontSize: "16px",
-            marginBottom: "20px",
+            marginBottom: "24px",
             cursor: "pointer",
             boxShadow: "0 3px 8px rgba(255,127,0,0.8)",
-            userSelect: "none",
+            alignSelf: "center",
           }}
-          onClick={() => navigate("/resultprofes")}
         >
           Buscar Profesor
         </button>
 
-        {/* Accordion: Especialidad */}
+        {/* Especialidad */}
         <div
           style={{
-            marginBottom: "20px",
+            backgroundColor: "rgba(255,255,255,0.9)",
+            borderRadius: "12px",
             border: "2px solid #ff7f00",
-            borderRadius: "10px",
-            overflow: "hidden",
+            marginBottom: "20px",
           }}
         >
           <button
-            onClick={() => toggleMenu("especialidad")}
+            onClick={() => setMenuLineasAbierto((prev) => !prev)}
             style={{
               width: "100%",
               backgroundColor: "#ff7f00",
@@ -187,111 +162,42 @@ export default function BuscarProfesor() {
               fontWeight: "700",
               fontSize: "16px",
               border: "none",
-              cursor: "pointer",
               textAlign: "left",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              userSelect: "none",
-            }}
-          >
-            Especialidad
-            <span style={{ fontWeight: "900", fontSize: "20px" }}>
-              {openMenu === "especialidad" ? "−" : "+"}
-            </span>
-          </button>
-          {openMenu === "especialidad" && (
-            <div
-              style={{
-                backgroundColor: "#fff",
-                padding: "15px 20px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px",
-                color: "#000",
-              }}
-            >
-              {especialidades.map((esp) => (
-                <label
-                  key={esp}
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedEspecialidades.has(esp)}
-                    onChange={() =>
-                      toggleSelection(setSelectedEspecialidades, selectedEspecialidades, esp)
-                    }
-                  />
-                  <span>{esp}</span>
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Accordion: Experiencia */}
-        <div
-          style={{
-            marginBottom: "20px",
-            border: "2px solid #ff7f00",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        >
-          <button
-            onClick={() => toggleMenu("experiencia")}
-            style={{
-              width: "100%",
-              backgroundColor: "#ff7f00",
-              color: "#000",
-              padding: "12px 20px",
-              fontWeight: "700",
-              fontSize: "16px",
-              border: "none",
               cursor: "pointer",
-              textAlign: "left",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              userSelect: "none",
+              borderTopLeftRadius: "10px",
+              borderTopRightRadius: "10px",
             }}
           >
-            Experiencia
-            <span style={{ fontWeight: "900", fontSize: "20px" }}>
-              {openMenu === "experiencia" ? "−" : "+"}
-            </span>
+            Líneas de investigación
+            <span>{menuLineasAbierto ? "−" : "+"}</span>
           </button>
-          {openMenu === "experiencia" && (
+          {menuLineasAbierto && (
             <div
               style={{
-                backgroundColor: "#fff",
-                padding: "15px 20px",
+                padding: "18px 24px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "8px",
-                color: "#000",
+                gap: "10px",
               }}
             >
-              {experiencias.map((exp) => (
-                <label
-                  key={exp}
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
+              {lineasInvestigacion.map((linea) => (
+                <label key={linea} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                   <input
                     type="checkbox"
-                    checked={selectedExperiencias.has(exp)}
-                    onChange={() =>
-                      toggleSelection(setSelectedExperiencias, selectedExperiencias, exp)
-                    }
+                    checked={selectedLineas.has(linea)}
+                    onChange={() => toggleSelection(setSelectedLineas, selectedLineas, linea)}
                   />
-                  <span>{exp}</span>
+                  {linea}
                 </label>
               ))}
             </div>
           )}
-        </div>
+        </div>  
       </main>
     </div>
   );
 }
+

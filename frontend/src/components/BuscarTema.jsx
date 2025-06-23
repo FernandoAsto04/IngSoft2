@@ -1,119 +1,97 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function BuscarTema() {
+export default function BuscarTema({ usuario }) {
   const navigate = useNavigate();
 
   const ciclos = ["2024-1", "2023-2", "2023-1", "2022-2", "2022-1", "2021-2"];
-  const años = ["2024", "2023", "2022", "2021"];
   const temas = [
     "Aplicaciones en inteligencia artificial",
     "Sistemas de TI",
     "Algoritmos y sistemas computacionales",
   ];
 
-  const [selectedCiclos, setSelectedCiclos] = useState(new Set(ciclos));
-  const [selectedAños, setSelectedAños] = useState(new Set(años));
-  const [selectedTemas, setSelectedTemas] = useState(new Set(temas));
+  const [selectedCiclos, setSelectedCiclos] = useState(new Set());
+  const [selectedTemas, setSelectedTemas] = useState(new Set());
 
-  const [openMenu, setOpenMenu] = useState(null);
+  const [menuCicloAbierto, setMenuCicloAbierto] = useState(false);
+  const [menuTemaAbierto, setMenuTemaAbierto] = useState(false);
 
   function toggleSelection(setter, selectedSet, value) {
     const newSet = new Set(selectedSet);
-    if (newSet.has(value)) {
-      newSet.delete(value);
-    } else {
-      newSet.add(value);
-    }
+    newSet.has(value) ? newSet.delete(value) : newSet.add(value);
     setter(newSet);
-  }
-
-  function toggleMenu(menuName) {
-    setOpenMenu(openMenu === menuName ? null : menuName);
   }
 
   return (
     <div
       style={{
-        backgroundColor: "#fff",
+        backgroundImage: 'url("/img/fondo2.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         minHeight: "100vh",
-        padding: "30px",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        width: "100vw",
         display: "flex",
-        gap: "40px",
-        color: "#000",
+        padding: "30px 20px",
+        boxSizing: "border-box",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       }}
     >
       {/* Sidebar */}
       <aside
         style={{
           width: "280px",
-          backgroundColor: "#ff7f00",
+          backgroundColor: "rgba(255,127,0,0.95)",
           borderRadius: "25px",
-          padding: "30px",
-          fontWeight: "700",
-          fontSize: "18px",
+          padding: "30px 20px",
           color: "#fff",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          boxShadow: "0 0 15px rgba(255,127,0,0.7)",
           justifyContent: "space-between",
+          alignItems: "center",
+          boxShadow: "0 0 15px rgba(0,0,0,0.15)",
         }}
       >
         <div style={{ textAlign: "center" }}>
           <div
-            style={{
-              width: "120px",
-              height: "120px",
-              backgroundColor: "#fff",
-              borderRadius: "50%",
-              marginBottom: "15px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "#ff7f00",
-              fontWeight: "900",
-              fontSize: "50px",
-              userSelect: "none",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            A
-          </div>
+  style={{
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "15px",
+  }}
+>
+  <div
+    style={{
+      width: "100px",
+      height: "100px",
+      backgroundColor: "#fff",
+      borderRadius: "50%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      color: "#ff7f00",
+      fontWeight: "900",
+      fontSize: "48px",
+      userSelect: "none",
+      textTransform: "uppercase",
+    }}
+  >
+    <span>{usuario.nombres?.charAt(0) || "?"}</span>
+  </div>
+</div>
 
-          <p
-            style={{
-              marginBottom: "6px",
-              fontSize: "18px",
-              fontWeight: "700",
-              lineHeight: "1.2",
-              userSelect: "text",
-            }}
-          >
-            Fernando Jesús <br /> Asto Mallqui
-          </p>
 
-          {/* Correo debajo del nombre */}
-          <p
-            style={{
-              fontWeight: "500",
-              fontSize: "14px",
-              color: "#fff",
-              marginBottom: "15px",
-              userSelect: "text",
-            }}
-          >
-            20213456@aloe.ulima.edu.pe
+          <p style={{ fontSize: "18px", fontWeight: "700", lineHeight: "1.2" }}>
+            {usuario.nombres} <br /> {usuario.apellidos}
           </p>
-
-          <p style={{ fontWeight: "500", fontSize: "14px", color: "#fff" }}>
-            Ingeniería de Sistemas
+          <p style={{ fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>
+            {usuario.email}
           </p>
+          <p style={{ fontSize: "14px", fontWeight: "500" }}>Ingeniería de Sistemas</p>
         </div>
 
-        {/* Botón Volver */}
         <button
           onClick={() => navigate("/")}
           style={{
@@ -125,28 +103,41 @@ export default function BuscarTema() {
             fontWeight: "700",
             fontSize: "16px",
             cursor: "pointer",
-            boxShadow: "0 3px 8px rgba(255,127,0,0.7)",
-            userSelect: "none",
+            boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
             marginTop: "30px",
-            alignSelf: "stretch",
+            width: "100%",
           }}
         >
           Volver
         </button>
       </aside>
-
-      {/* Main filtros */}
+      {/* Main */}
       <main
         style={{
           flex: 1,
-          backgroundColor: "#fff",
-          borderRadius: "15px",
-          padding: "30px",
-          boxShadow: "0 0 20px rgba(255,127,0,0.3)",
-          maxWidth: "700px",
+          marginLeft: "40px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          color: "#000",
         }}
       >
+        <h2
+          style={{
+            fontSize: "26px",
+            fontWeight: "700",
+            textAlign: "center",
+            marginBottom: "25px",
+            backgroundColor: "rgba(255,255,255,0.85)",
+            borderRadius: "15px",
+            padding: "16px",
+          }}
+        >
+          BUSCAR TRABJO POR TEMA
+        </h2>
+
         <button
+          onClick={() => navigate("/resultemas")}
           style={{
             backgroundColor: "#ff7f00",
             color: "#000",
@@ -155,27 +146,26 @@ export default function BuscarTema() {
             border: "none",
             fontWeight: "700",
             fontSize: "16px",
-            marginBottom: "20px",
+            marginBottom: "24px",
             cursor: "pointer",
             boxShadow: "0 3px 8px rgba(255,127,0,0.8)",
-            userSelect: "none",
+            alignSelf: "center",
           }}
-          onClick={() => navigate("/resultemas")}
         >
           Buscar Tema
         </button>
 
-        {/* Accordion: Ciclo académico */}
+        {/* Ciclo académico */}
         <div
           style={{
-            marginBottom: "20px",
+            backgroundColor: "rgba(255,255,255,0.9)",
+            borderRadius: "12px",
             border: "2px solid #ff7f00",
-            borderRadius: "10px",
-            overflow: "hidden",
+            marginBottom: "20px",
           }}
         >
           <button
-            onClick={() => toggleMenu("ciclo")}
+            onClick={() => setMenuCicloAbierto((prev) => !prev)}
             style={{
               width: "100%",
               backgroundColor: "#ff7f00",
@@ -184,60 +174,44 @@ export default function BuscarTema() {
               fontWeight: "700",
               fontSize: "16px",
               border: "none",
-              cursor: "pointer",
               textAlign: "left",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              userSelect: "none",
+              cursor: "pointer",
+              borderTopLeftRadius: "10px",
+              borderTopRightRadius: "10px",
             }}
           >
             Ciclo académico
-            <span style={{ fontWeight: "900", fontSize: "20px" }}>
-              {openMenu === "ciclo" ? "−" : "+"}
-            </span>
+            <span>{menuCicloAbierto ? "−" : "+"}</span>
           </button>
-          {openMenu === "ciclo" && (
-            <div
-              style={{
-                backgroundColor: "#fff",
-                padding: "15px 20px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px",
-                color: "#000",
-              }}
-            >
+          {menuCicloAbierto && (
+            <div style={{ padding: "18px 24px", display: "flex", flexDirection: "column", gap: "10px" }}>
               {ciclos.map((ciclo) => (
-                <label
-                  key={ciclo}
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
+                <label key={ciclo} style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                   <input
                     type="checkbox"
                     checked={selectedCiclos.has(ciclo)}
-                    onChange={() =>
-                      toggleSelection(setSelectedCiclos, selectedCiclos, ciclo)
-                    }
+                    onChange={() => toggleSelection(setSelectedCiclos, selectedCiclos, ciclo)}
                   />
-                  <span>{ciclo}</span>
+                  {ciclo}
                 </label>
               ))}
             </div>
           )}
         </div>
 
-        {/* Accordion: Año */}
+        {/* Tema */}
         <div
           style={{
-            marginBottom: "20px",
+            backgroundColor: "rgba(255,255,255,0.9)",
+            borderRadius: "12px",
             border: "2px solid #ff7f00",
-            borderRadius: "10px",
-            overflow: "hidden",
           }}
         >
           <button
-            onClick={() => toggleMenu("año")}
+            onClick={() => setMenuTemaAbierto((prev) => !prev)}
             style={{
               width: "100%",
               backgroundColor: "#ff7f00",
@@ -246,105 +220,38 @@ export default function BuscarTema() {
               fontWeight: "700",
               fontSize: "16px",
               border: "none",
-              cursor: "pointer",
               textAlign: "left",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              userSelect: "none",
-            }}
-          >
-            Año
-            <span style={{ fontWeight: "900", fontSize: "20px" }}>
-              {openMenu === "año" ? "−" : "+"}
-            </span>
-          </button>
-          {openMenu === "año" && (
-            <div
-              style={{
-                backgroundColor: "#fff",
-                padding: "15px 20px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px",
-                color: "#000",
-              }}
-            >
-              {años.map((año) => (
-                <label
-                  key={año}
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedAños.has(año)}
-                    onChange={() =>
-                      toggleSelection(setSelectedAños, selectedAños, año)
-                    }
-                  />
-                  <span>{año}</span>
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Accordion: Tema */}
-        <div
-          style={{
-            marginBottom: "20px",
-            border: "2px solid #ff7f00",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        >
-          <button
-            onClick={() => toggleMenu("tema")}
-            style={{
-              width: "100%",
-              backgroundColor: "#ff7f00",
-              color: "#000",
-              padding: "12px 20px",
-              fontWeight: "700",
-              fontSize: "16px",
-              border: "none",
               cursor: "pointer",
-              textAlign: "left",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              userSelect: "none",
+              borderTopLeftRadius: "10px",
+              borderTopRightRadius: "10px",
             }}
           >
             Tema
-            <span style={{ fontWeight: "900", fontSize: "20px" }}>
-              {openMenu === "tema" ? "−" : "+"}
-            </span>
+            <span>{menuTemaAbierto ? "−" : "+"}</span>
           </button>
-          {openMenu === "tema" && (
+          {menuTemaAbierto && (
             <div
               style={{
-                backgroundColor: "#fff",
-                padding: "15px 20px",
+                padding: "18px 24px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "8px",
-                color: "#000",
+                gap: "10px",
+                backgroundColor: "rgba(255,255,255,0.9)",
+                borderBottomLeftRadius: "10px",
+                borderBottomRightRadius: "10px",
               }}
             >
               {temas.map((tema) => (
-                <label
-                  key={tema}
-                  style={{ display: "flex", alignItems: "center", gap: "8px" }}
-                >
+                <label key={tema} style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                   <input
                     type="checkbox"
                     checked={selectedTemas.has(tema)}
-                    onChange={() =>
-                      toggleSelection(setSelectedTemas, selectedTemas, tema)
-                    }
+                    onChange={() => toggleSelection(setSelectedTemas, selectedTemas, tema)}
                   />
-                  <span>{tema}</span>
+                  {tema}
                 </label>
               ))}
             </div>

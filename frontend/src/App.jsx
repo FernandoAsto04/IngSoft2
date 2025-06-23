@@ -48,8 +48,8 @@ function App() {
           }
         />
           {/* Rutas para las diferentes funcionalidades */}  
-          <Route path="/buscarprofe" element={<BuscarProfesor />} />
-          <Route path="/buscar-tema" element={<BuscarTema />} />
+          <Route path="/buscarprofe" element={<BuscarProfesor usuario={usuario}/>} />
+          <Route path="/buscar-tema" element={<BuscarTema usuario={usuario}/>} />
           <Route path="/resultprofes" element={<ListaProfesores />} />
           <Route path="/resultemas" element={<ListaTemas />} />
           <Route path="/nuevotrabajo" element={<FormularioTrabajo />} />
