@@ -24,6 +24,7 @@ const Login = ({ onLogin }) => {
     const data = await response.json();
 
     if (response.ok) {
+      localStorage.setItem("usuario", JSON.stringify(data.usuario));
       onLogin(data.usuario);
       alert("Inicio de sesión exitoso");
     } else {

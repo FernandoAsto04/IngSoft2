@@ -13,8 +13,11 @@ import ListaAsesorias from "./components/listaAsesoria";
 
 
 function App() {
-  const [logueado, setLogueado] = useState(false);
-  const [usuario, setUsuario] = useState(null);
+  const [usuario, setUsuario] = useState(() => {
+    const guardado = localStorage.getItem("usuario");
+    return guardado ? JSON.parse(guardado) : null;
+  });
+  const [logueado, setLogueado] = useState(!!usuario);
 
   if (!logueado) {
     return (
@@ -38,6 +41,7 @@ function App() {
               onLogout={() => {
                 setLogueado(false);
                 setUsuario(null);
+                localStorage.removeItem("usuario");
               }}
               usuario={usuario}
             />

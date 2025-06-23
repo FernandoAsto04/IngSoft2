@@ -51,6 +51,7 @@ async function verificarConexion(){
 
 
 
+
 //Provisional para verificar la conexión a la DB mediante el browser
 
 app.get("/ping", async (req, res) => {
