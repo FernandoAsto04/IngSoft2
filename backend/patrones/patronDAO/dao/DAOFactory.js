@@ -8,6 +8,7 @@ import { ProfesorDAO } from "../daocomponent/profesorDAO";
 import { TrabajoDAO } from "../daocomponent/trabajoDAO";
 import { UsuarioDAO } from "../daocomponent/usuarioDAO";
 import {AreaProfesorDAO} from "../daocomponent/areaProfesorDAO";
+import { TipoDAO } from "../daocomponent/tipoDAO";
 
 
 
@@ -50,6 +51,9 @@ class DAOFactory {
 
   static getareaprofesorDAO() {
     return new AreaProfesorDAO();
+  }
+  static gettipoDAO() {
+    return new TipoDAO();
   }
 
   

@@ -13,7 +13,7 @@ export const obtenerTodos = async (req, res) => {
 
 export const obtenerPorId = async (req, res) => {
   try {
-    const tipo = await dao.obtenerTiposPorId(req.params.id);
+    const tipo = await dao.obtenerTipoPorId(req.params.id);
     if (!tipo) return res.status(404).json({ error: 'Tipo no encontrado' });
     res.json(tipo);
   } catch (error) {
