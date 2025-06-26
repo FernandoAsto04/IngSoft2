@@ -1,8 +1,6 @@
 import {DataTypes } from "sequelize";
 import { sequelize } from "../../../database/database.js";
-import {TrabajoArticulo} from "./TrabajoArticuloTO.js"
-import {TrabajoPaper} from "./TrabajoPaperTO.js"
-import {TrabajoTesis} from "./TrabajoTesisTO.js"
+
 
 
 
@@ -26,36 +24,3 @@ export const Trabajo = sequelize.define(
         freezeTableName: true //Para que se mantenga el nombre de la tabla
     }
 );
-
-
-//Relacion Trabajo - TrabajoArticulo
-Trabajo.hasMany(TrabajoArticulo, { 
-    foreignKey: "Trabajoid",
-    sourceKey: "id"
-});
-TrabajoArticulo.belongsTo(Trabajo, { 
-    foreignKey: "Trabajoid",
-    targetKey: "id"
-});
-
-//Relacion Trabajo - TrabajoPaper
-
-Trabajo.hasMany(TrabajoPaper, { 
-    foreignKey: "Trabajoid",
-    sourceKey: "id"
-});
-TrabajoPaper.belongsTo(Trabajo, { 
-    foreignKey: "Trabajoid",
-    targetKey: "id"
-});
-
-//Relacion Trabajo -TrabajoTesis
-
-Trabajo.hasMany(TrabajoTesis, { 
-    foreignKey: "Trabajoid",
-    sourceKey: "id"
-});
-TrabajoTesis.belongsTo(Trabajo, { 
-    foreignKey: "Trabajoid",
-    targetKey: "id"
-});

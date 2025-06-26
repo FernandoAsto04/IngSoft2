@@ -8,9 +8,7 @@ import { ProfesorDAO } from "../daocomponent/profesorDAO";
 import { TrabajoDAO } from "../daocomponent/trabajoDAO";
 import { UsuarioDAO } from "../daocomponent/usuarioDAO";
 import {AreaProfesorDAO} from "../daocomponent/areaProfesorDAO";
-import { TrabajoArticuloDAO } from "../daocomponent/trabajoArticuloDAO";
-import { TrabajoPaperDAO } from "../daocomponent/trabajoPaperDAO";
-import { TrabajoTesisDAO } from "../daocomponent/trabajoTesisDAO";
+
 
 
 class DAOFactory {
@@ -54,17 +52,7 @@ class DAOFactory {
     return new AreaProfesorDAO();
   }
 
-  static gettrabajoarticuloDAO() {
-    return new TrabajoArticuloDAO();
-  }
-
-  static gettrabajopaperDAO() {
-    return new TrabajoPaperDAO();
-  }
-
-  static gettrabajotesisDAO() {
-    return new TrabajoTesisDAO();
-  }
+  
 }
 
 export default DAOFactory;

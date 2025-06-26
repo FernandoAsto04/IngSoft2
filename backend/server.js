@@ -11,6 +11,7 @@ import asesoriaroutes from './routes/asesoriaroutes.js';
 import arearoutes from './routes/arearoutes.js';
 import alumnoroutes from './routes/alumnoroutes.js';
 import administradorroutes from './routes/administradorroutes.js';
+
 //cambiar rutas
 
 import {Administrador} from  "./models/Administrador.js";
@@ -23,6 +24,7 @@ import {Linea} from "./models/Linea.js";
 import {Profesor} from "./models/Profesor.js";
 import {Trabajo} from "./models/Trabajo.js";
 import {Usuario} from "./models/Usuario.js";
+import {Tipo} from "./models/Tipo.js";
 
 
 
@@ -39,7 +41,7 @@ async function verificarConexion(){
     try {
         await sequelize.authenticate();
         console.log("Conexión a la DB exitosa")
-        await sequelize.sync({alter:true}); //Sincroniza los cambios 
+        await sequelize.sync({force:true}); //Sincroniza los cambios 
         //Una vez la tabla ya tenga datos, en vez de force debe ser alter. Asi no se borran los datos
     } catch (error) {
         console.error("Ocurrió un error al conectarse a la DB", error)
