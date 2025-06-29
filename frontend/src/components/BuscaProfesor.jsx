@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function BuscarProfesor({ usuario }) {
   const navigate = useNavigate();
 
-  const lineasInvestigacion = [
-    "Algoritmos y sistemas computacionales",
-    "Aplicaciones en inteligencia artificial",
-    "Interacción Humano-media",
-    "Tecnologías y Gestión organizacional",
-  ];
+  const [lineasInvestigacion, setLineasInvestigacion] = useState([]);
   const [selectedLineas, setSelectedLineas] = useState(new Set());
   const [menuLineasAbierto, setMenuLineasAbierto] = useState(false);
 
+  useEffect(() => {
+    const fetchLineas = async () => {
+      try {
+        const res = await axios.get("http://localhost:3002/lineas");
+        setLineasInvestigacion(res.data);
+      } catch (err) {
+        console.error("Error al obtener líneas:", err);
+      }
+    };
+
+    fetchLineas();
+  }, []);
 
   function toggleSelection(setter, selectedSet, value) {
     const newSet = new Set(selectedSet);
@@ -125,7 +133,13 @@ export default function BuscarProfesor({ usuario }) {
         </h2>
 
         <button
-          onClick={() => navigate("/resultprofes")}
+          onClick={() =>
+            navigate("/resultprofes", {
+              state: {
+                lineaIds: Array.from(selectedLineas),
+              },
+            })
+          }
           style={{
             backgroundColor: "#ff7f00",
             color: "#000",
@@ -184,20 +198,19 @@ export default function BuscarProfesor({ usuario }) {
               }}
             >
               {lineasInvestigacion.map((linea) => (
-                <label key={linea} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <label key={linea.id} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                   <input
                     type="checkbox"
-                    checked={selectedLineas.has(linea)}
-                    onChange={() => toggleSelection(setSelectedLineas, selectedLineas, linea)}
+                    checked={selectedLineas.has(linea.id)}
+                    onChange={() => toggleSelection(setSelectedLineas, selectedLineas, linea.id)}
                   />
-                  {linea}
+                  {linea.nombre}
                 </label>
               ))}
             </div>
           )}
-        </div>  
+        </div>
       </main>
     </div>
   );
 }
-

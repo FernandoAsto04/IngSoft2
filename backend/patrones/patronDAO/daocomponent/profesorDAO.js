@@ -1,44 +1,46 @@
 import { Profesor } from "../daoto/ProfesorTO.js";
+import { Area } from "../daoto/AreaTO.js";
+import { Linea } from "../daoto/LineaTO.js";
+import { Asesoria } from "../daoto/AsesoriaTO.js";
+import { Usuario } from "../daoto/UsuarioTO.js";
 
 export class ProfesorDAO {
-  async listarProfesores() {
-    return await Profesor.findAll();
-  }
+  async obtenerPorVariasLineas(lineaIds) {
+    const lineas = await Linea.findAll({
+      where: { id: lineaIds },
+      attributes: ["Areaid"]
+    });
 
-  async insertarProfesor(profesor) {
-    try {
-      await Profesor.create(profesor);
-      return null;
-    } catch (error) {
-      return error.message;
-    }
-  }
+    const areaIds = lineas.map(l => l.Areaid);
+    if (areaIds.length === 0) return [];
 
-  async actualizarProfesor(profesor) {
-    try {
-      const [updated] = await Profesor.update(profesor, {
-        where: { id: profesor.id }
-      });
-      return updated === 0 ? "Error" : null;
-    } catch (error) {
-      return error.message;
-    }
-  }
-
-  async eliminarProfesor(ids) {
-    try {
-      await Profesor.destroy({
-        where: {
-          id: ids
+    return await Profesor.findAll({
+      include: [
+        {
+          model: Area,
+          as: "AreasAsignadas",
+          where: { id: areaIds },
+          through: { attributes: [] },
+          include: {
+            model: Linea,
+            as: "Lineas",
+            attributes: ["nombre"]
+          }
+        },
+        {
+          model: Asesoria,
+          as: "Asesorias",
+          attributes: ["horario", "lugar", "link"]
+        },
+        {
+          model: Usuario,
+          as: "Usuario",
+          attributes: ["nombres", "apellidos", "email"]
         }
-      });
-      return null;
-    } catch (error) {
-      return error.message;
-    }
-  }
-
-  async obtenerProfesorPorId(id) {
-    return await Profesor.findByPk(id);
+      ]
+    });
   }
 }
+
+
+

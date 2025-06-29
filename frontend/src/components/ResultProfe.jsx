@@ -1,103 +1,63 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const profesoresData = [
-  {
-    nombre: "Dr. Ana Pérez",
-    email: "ana.perez@ulima.edu.pe",
-    departamento: "Ingeniería de Sistemas",
-    especialidades: ["Inteligencia Artificial", "Machine Learning"],
-  },
-  {
-    nombre: "Ing. Carlos Ramírez",
-    email: "carlos.ramirez@ulima.edu.pe",
-    departamento: "Ingeniería Industrial",
-    especialidades: ["Optimización", "Gestión de Proyectos"],
-  },
-  {
-    nombre: "Dra. María López",
-    email: "maria.lopez@ulima.edu.pe",
-    departamento: "Ciencias de la Computación",
-    especialidades: ["Algoritmos", "Bases de Datos"],
-  },
-];
-
-// Extraemos especialidades y departamentos únicos para filtros
-const allEspecialidades = Array.from(
-  new Set(profesoresData.flatMap((p) => p.especialidades))
-);
-const allDepartamentos = Array.from(
-  new Set(profesoresData.map((p) => p.departamento))
-);
-
-export default function ListaProfesores() {
+export default function ResultProfesores({ usuario }) {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const [profesores, setProfesores] = useState([]);
 
-  const [openMenu, setOpenMenu] = useState(null);
-  const [selectedEspecialidades, setSelectedEspecialidades] = useState(
-    new Set(allEspecialidades)
-  );
-  const [selectedDepartamentos, setSelectedDepartamentos] = useState(
-    new Set(allDepartamentos)
-  );
+  useEffect(() => {
+    const fetchProfesores = async () => {
+      if (!state?.lineaIds?.length) return;
 
-  // Toggle menú acordeón
-  function toggleMenu(menuName) {
-    setOpenMenu(openMenu === menuName ? null : menuName);
-  }
+      try {
+        const res = await axios.post("http://localhost:3002/profesores/lineas", {
+          lineaIds: state.lineaIds,
+        });
+        setProfesores(res.data);
+      } catch (error) {
+        console.error("Error al obtener profesores:", error);
+      }
+    };
 
-  // Toggle selección filtros
-  function toggleSelection(setter, selectedSet, value) {
-    const newSet = new Set(selectedSet);
-    if (newSet.has(value)) {
-      newSet.delete(value);
-    } else {
-      newSet.add(value);
-    }
-    setter(newSet);
-  }
-
-  // Filtrar profesores según selección
-  const profesoresFiltrados = profesoresData.filter(
-    (p) =>
-      p.especialidades.some((e) => selectedEspecialidades.has(e)) &&
-      selectedDepartamentos.has(p.departamento)
-  );
+    fetchProfesores();
+  }, [state]);
 
   return (
     <div
       style={{
-        backgroundColor: "#fff",
+        backgroundImage: 'url("/img/fondo2.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         minHeight: "100vh",
-        padding: "30px",
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        width: "100vw",
         display: "flex",
-        gap: "40px",
-        color: "#000",
+        padding: "30px 20px",
+        boxSizing: "border-box",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       }}
     >
       {/* Sidebar */}
       <aside
         style={{
           width: "280px",
-          backgroundColor: "#ff7f00",
+          backgroundColor: "rgba(255,127,0,0.95)",
           borderRadius: "25px",
-          padding: "30px",
-          fontWeight: "700",
-          fontSize: "18px",
+          padding: "30px 20px",
           color: "#fff",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          boxShadow: "0 0 15px rgba(255,127,0,0.7)",
           justifyContent: "space-between",
+          alignItems: "center",
+          boxShadow: "0 0 15px rgba(0,0,0,0.15)",
         }}
       >
         <div style={{ textAlign: "center" }}>
           <div
             style={{
-              width: "120px",
-              height: "120px",
+              width: "100px",
+              height: "100px",
               backgroundColor: "#fff",
               borderRadius: "50%",
               marginBottom: "15px",
@@ -106,46 +66,25 @@ export default function ListaProfesores() {
               alignItems: "center",
               color: "#ff7f00",
               fontWeight: "900",
-              fontSize: "50px",
+              fontSize: "42px",
               userSelect: "none",
-              marginLeft: "auto",
-              marginRight: "auto",
+              margin: "0 auto",
             }}
           >
-            P
+            {usuario?.nombres?.charAt(0) || "?"}
           </div>
 
-          <p
-            style={{
-              marginBottom: "6px",
-              fontSize: "18px",
-              fontWeight: "700",
-              lineHeight: "1.2",
-              userSelect: "text",
-            }}
-          >
-            Fernando Jesús <br /> Asto Mallqui
+          <p style={{ fontSize: "18px", fontWeight: "700", lineHeight: "1.2" }}>
+            {usuario?.nombres} <br /> {usuario?.apellidos}
           </p>
-
-          <p
-            style={{
-              fontWeight: "500",
-              fontSize: "14px",
-              color: "#fff",
-              marginBottom: "15px",
-              userSelect: "text",
-            }}
-          >
-            fernando.asto@ulima.edu.pe
+          <p style={{ fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>
+            {usuario?.email}
           </p>
-
-          <p style={{ fontWeight: "500", fontSize: "14px", color: "#fff" }}>
-            Ingeniería de Sistemas
-          </p>
+          <p style={{ fontSize: "14px", fontWeight: "500" }}>Ingeniería de Sistemas</p>
         </div>
 
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/buscarprofe")}
           style={{
             backgroundColor: "#fff",
             color: "#ff7f00",
@@ -155,88 +94,88 @@ export default function ListaProfesores() {
             fontWeight: "700",
             fontSize: "16px",
             cursor: "pointer",
-            boxShadow: "0 3px 8px rgba(255,127,0,0.7)",
-            userSelect: "none",
+            boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
             marginTop: "30px",
-            alignSelf: "stretch",
+            width: "100%",
           }}
         >
-          Volver
+          Nueva búsqueda
         </button>
       </aside>
 
-      {/* Main contenido */}
+      {/* Resultados */}
       <main
         style={{
           flex: 1,
-          backgroundColor: "#fff",
-          borderRadius: "15px",
-          padding: "30px",
-          boxShadow: "0 0 20px rgba(255,127,0,0.3)",
-          maxWidth: "700px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
+          marginLeft: "40px",
+          backgroundColor: "rgba(255,255,255,0.95)",
+          padding: "30px 40px",
+          borderRadius: "20px",
+          overflowY: "auto",
+          boxShadow: "0 0 15px rgba(0,0,0,0.1)",
+          color: "#000",
         }}
       >
-        {/* Botón Buscar (podrías conectar con ruta resultados) */}
-        <button
-          onClick={() => navigate("/resulprofes")}
+        <h2
           style={{
-            backgroundColor: "#ff7f00",
-            color: "#000",
-            padding: "12px 30px",
-            borderRadius: "25px",
-            border: "none",
+            fontSize: "30px",
             fontWeight: "700",
-            fontSize: "16px",
-            cursor: "pointer",
-            boxShadow: "0 3px 8px rgba(255,127,0,0.8)",
-            userSelect: "none",
-            alignSelf: "flex-start",
+            textAlign: "center",
+            marginBottom: "25px",
+            backgroundColor: "rgba(255,255,255,0.85)",
+            borderRadius: "15px",
+            padding: "20px",
           }}
         >
-          Buscar Profesor
-        </button>
+          PROFESORES ENCONTRADOS
+        </h2>
 
-        
-
-        {/* Lista filtrada de profesores */}
-        <section>
-          <h2
+        {profesores.filter(p => p.Usuario).length === 0 ? (
+          <p
             style={{
-              fontWeight: "700",
-              fontSize: "24px",
-              marginBottom: "16px",
-              color: "#ff7f00",
+              backgroundColor: "rgba(255,255,255,0.9)",
+              padding: "20px",
+              borderRadius: "12px",
+              border: "2px solid #ff7f00",
+              textAlign: "center",
             }}
           >
-            Profesores encontrados ({profesoresFiltrados.length})
-          </h2>
-
-          {profesoresFiltrados.length === 0 && (
-            <p>No se encontraron profesores con esos filtros.</p>
-          )}
-
-          {profesoresFiltrados.map(({ nombre, email, departamento, especialidades }) => (
-            <article
-              key={nombre}
-              style={{
-                borderBottom: "1px solid #ff7f00",
-                padding: "12px 0",
-              }}
-            >
-              <p style={{ fontWeight: "700", fontSize: "18px" }}>{nombre}</p>
-              <p style={{ fontSize: "14px", color: "#555" }}>{email}</p>
-              <p style={{ fontSize: "14px", color: "#777" }}>
-                <b>Departamento:</b> {departamento}
-              </p>
-              <p style={{ fontSize: "14px", color: "#777" }}>
-                <b>Especialidades:</b> {especialidades.join(", ")}
-              </p>
-            </article>
-          ))}
-        </section>
+            No se encontraron profesores para las líneas seleccionadas.
+          </p>
+        ) : (
+          profesores
+            .filter((prof) => prof.Usuario)
+            .map((prof) => (
+              <div
+                key={prof.id}
+                style={{
+                  backgroundColor: "#fff",
+                  padding: "20px 24px",
+                  borderRadius: "15px",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  marginBottom: "20px",
+                  borderLeft: "6px solid #ff7f00",
+                }}
+              >
+                <h3 style={{ marginTop: 0 }}>
+                  {prof.Usuario.nombres} {prof.Usuario.apellidos}
+                </h3>
+                <p><b>Correo:</b> {prof.Usuario.email}</p>
+                <p><b>Líneas:</b>{" "}
+                  {prof.AreasAsignadas?.[0]?.Lineas?.map(l => l.nombre).join(", ") || "—"}
+                </p>
+                <p><b>Horario:</b> {prof.Asesorias?.[0]?.horario || "—"}</p>
+                <p><b>Lugar:</b> {prof.Asesorias?.[0]?.lugar || "—"}</p>
+                <p><b>Link de asesoría:</b>{" "}
+                  {prof.Asesorias?.[0]?.link ? (
+                    <a href={prof.Asesorias[0].link} target="_blank" rel="noreferrer">
+                      {prof.Asesorias[0].link}
+                    </a>
+                  ) : "—"}
+                </p>
+              </div>
+            ))
+        )}
       </main>
     </div>
   );

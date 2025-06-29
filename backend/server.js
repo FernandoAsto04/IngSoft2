@@ -25,6 +25,7 @@ import {Profesor} from "./models/Profesor.js";
 import {Trabajo} from "./models/Trabajo.js";
 import {Usuario} from "./models/Usuario.js";
 import {Tipo} from "./models/Tipo.js";
+import "./models/asociaciones.js";
 
 
 
@@ -67,7 +68,7 @@ app.get("/ping", async (req, res) => {
 
 // Conexión de las rutas que tengo por ahora(Solo usuario)
 app.use("/usuarios", usuarioRoutes);
-app.use("/profesores", profesorroutes); //falta terminar
+app.use("/profesores", profesorroutes); 
 app.use("/estados", estadoroutes);
 app.use("/trabajos", trabajoroutes);
 app.use("/lineas", linearoutes);

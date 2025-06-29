@@ -22,34 +22,3 @@ export const Usuario = sequelize.define(
     }
 );
 
-//Relacion Usuario - Alumno
-Usuario.hasMany(Alumno, { 
-    foreignKey: "Usuarioid",
-    sourceKey: "id"
-});
-Alumno.belongsTo(Usuario, { 
-    foreignKey: "Usuarioid",
-    targetKey: "id"
-});
-
-//Relacion Usuario - Profesor
-
-Usuario.hasMany(Profesor, { 
-    foreignKey: "Usuarioid",
-    sourceKey: "id"
-});
-Profesor.belongsTo(Usuario, { 
-    foreignKey: "Usuarioid",
-    targetKey: "id"
-});
-
-//Relacion Usuario - Administrador
-
-Usuario.hasMany(Administrador, { 
-    foreignKey: "Usuarioid",
-    sourceKey: "id"
-});
-Administrador.belongsTo(Usuario, { 
-    foreignKey: "Usuarioid",
-    targetKey: "id"
-});
