@@ -51,7 +51,7 @@ function App() {
           <Route path="/buscarprofe" element={<BuscarProfesor usuario={usuario}/>} />
           <Route path="/buscar-tema" element={<BuscarTema usuario={usuario}/>} />
           <Route path="/resultprofes" element={<ListaProfesores usuario={usuario}/>} />
-          <Route path="/resultemas" element={<ListaTemas />} />
+          <Route path="/resultemas" element={<ListaTemas usuario={usuario}/>} />
           <Route path="/nuevotrabajo" element={<FormularioTrabajo />} />
           <Route path="/listaAsesorias" element={<ListaAsesorias/>} />
           {/* Si no hay coincidencia redirigir a "/" */}

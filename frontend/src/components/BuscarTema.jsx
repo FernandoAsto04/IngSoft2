@@ -1,21 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function BuscarTema({ usuario }) {
   const navigate = useNavigate();
 
   const ciclos = ["2024-1", "2023-2", "2023-1", "2022-2", "2022-1", "2021-2"];
-  const temas = [
-    "Aplicaciones en inteligencia artificial",
-    "Sistemas de TI",
-    "Algoritmos y sistemas computacionales",
-  ];
-
+  const [temas, setTemas] = useState([]);
   const [selectedCiclos, setSelectedCiclos] = useState(new Set());
   const [selectedTemas, setSelectedTemas] = useState(new Set());
-
   const [menuCicloAbierto, setMenuCicloAbierto] = useState(false);
   const [menuTemaAbierto, setMenuTemaAbierto] = useState(false);
+
+  useEffect(() => {
+    const fetchTemas = async () => {
+      try {
+        const res = await axios.get("http://localhost:3002/areas");
+        setTemas(res.data);
+      } catch (error) {
+        console.error("Error al obtener áreas:", error);
+      }
+    };
+
+    fetchTemas();
+  }, []);
 
   function toggleSelection(setter, selectedSet, value) {
     const newSet = new Set(selectedSet);
@@ -54,40 +62,31 @@ export default function BuscarTema({ usuario }) {
       >
         <div style={{ textAlign: "center" }}>
           <div
-  style={{
-    width: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: "15px",
-  }}
->
-  <div
-    style={{
-      width: "100px",
-      height: "100px",
-      backgroundColor: "#fff",
-      borderRadius: "50%",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      color: "#ff7f00",
-      fontWeight: "900",
-      fontSize: "48px",
-      userSelect: "none",
-      textTransform: "uppercase",
-    }}
-  >
-    <span>{usuario.nombres?.charAt(0) || "?"}</span>
-  </div>
-</div>
-
+            style={{
+              width: "100px",
+              height: "100px",
+              backgroundColor: "#fff",
+              borderRadius: "50%",
+              marginBottom: "15px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#ff7f00",
+              fontWeight: "900",
+              fontSize: "48px",
+              userSelect: "none",
+              textTransform: "uppercase",
+              margin: "0 auto",
+            }}
+          >
+            <span>{usuario?.nombres?.charAt(0) || "?"}</span>
+          </div>
 
           <p style={{ fontSize: "18px", fontWeight: "700", lineHeight: "1.2" }}>
-            {usuario.nombres} <br /> {usuario.apellidos}
+            {usuario?.nombres} <br /> {usuario?.apellidos}
           </p>
           <p style={{ fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>
-            {usuario.email}
+            {usuario?.email}
           </p>
           <p style={{ fontSize: "14px", fontWeight: "500" }}>Ingeniería de Sistemas</p>
         </div>
@@ -111,6 +110,7 @@ export default function BuscarTema({ usuario }) {
           Volver
         </button>
       </aside>
+
       {/* Main */}
       <main
         style={{
@@ -133,11 +133,18 @@ export default function BuscarTema({ usuario }) {
             padding: "16px",
           }}
         >
-          BUSCAR TRABJO POR TEMA
+          BUSCAR TRABAJO POR ÁREA
         </h2>
 
         <button
-          onClick={() => navigate("/resultemas")}
+          onClick={() =>
+            navigate("/resultemas", {
+              state: {
+                ciclos: Array.from(selectedCiclos),
+                temas: Array.from(selectedTemas),
+              },
+            })
+          }
           style={{
             backgroundColor: "#ff7f00",
             color: "#000",
@@ -155,7 +162,7 @@ export default function BuscarTema({ usuario }) {
           Buscar Tema
         </button>
 
-        {/* Ciclo académico */}
+        {/* Ciclos */}
         <div
           style={{
             backgroundColor: "rgba(255,255,255,0.9)",
@@ -202,7 +209,7 @@ export default function BuscarTema({ usuario }) {
           )}
         </div>
 
-        {/* Tema */}
+        {/* Temas */}
         <div
           style={{
             backgroundColor: "rgba(255,255,255,0.9)",
@@ -229,7 +236,7 @@ export default function BuscarTema({ usuario }) {
               borderTopRightRadius: "10px",
             }}
           >
-            Tema
+            Área
             <span>{menuTemaAbierto ? "−" : "+"}</span>
           </button>
           {menuTemaAbierto && (
@@ -244,20 +251,20 @@ export default function BuscarTema({ usuario }) {
                 borderBottomRightRadius: "10px",
               }}
             >
-              {temas.map((tema) => (
-                <label key={tema} style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              {temas.map((t) => (
+                <label key={t.id} style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                   <input
                     type="checkbox"
-                    checked={selectedTemas.has(tema)}
-                    onChange={() => toggleSelection(setSelectedTemas, selectedTemas, tema)}
+                    checked={selectedTemas.has(t.id)}
+                    onChange={() => toggleSelection(setSelectedTemas, selectedTemas, t.id)}
                   />
-                  {tema}
+                  {t.nombre}
                 </label>
               ))}
             </div>
           )}
         </div>
       </main>
-    </div>
+    </div> 
   );
 }

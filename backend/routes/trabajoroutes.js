@@ -5,7 +5,8 @@ import {
   obtenerPorId,
   crear,
   actualizar,
-  eliminar
+  eliminar, 
+  filtrar
 } from '../controllers/trabajoController.js';
 
 const router = express.Router();
@@ -15,5 +16,6 @@ router.get('/:id', obtenerPorId);
 router.post('/', crear);
 router.put('/:id', actualizar);
 router.delete('/:id', eliminar);
+router.post('/filtro', filtrar);
 
 export default router;

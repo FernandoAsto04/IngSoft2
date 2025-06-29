@@ -1,101 +1,92 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const temasData = [
-  {
-    titulo: "Optimización de Algoritmos para la Solución de Problemas Computacionales",
-    fecha: "15 May 2025",
-    abstract:
-      "Este trabajo presenta un enfoque para el diseño y optimización de algoritmos aplicados a la resolución de problemas complejos en sistemas computacionales.",
-    temas: ["Algoritmos y sistemas computacionales", "Diseño de algoritmos"],
-  },
-  {
-    titulo: "Aplicación de Minería y Simulación de Procesos en la Gestión Organizacional",
-    fecha: "12 May 2025",
-    abstract:
-      "El estudio explora cómo las tecnologías emergentes y la minería de procesos pueden mejorar la toma de decisiones dentro de las organizaciones.",
-    temas: ["Tecnologías y Gestión organizacional", "Minería de procesos", "Computación Aplicada"],
-  },
-  {
-    titulo: "Estrategias para la Sostenibilidad en Sistemas de Tecnologías de Información",
-    fecha: "12 May 2025",
-    abstract:
-      "Este trabajo analiza el impacto ambiental de los sistemas de TI y propone estrategias sostenibles para su desarrollo y operación.",
-    temas: ["Sistemas de TI", "Sostenibilidad en TI"],
-  },
-  {
-    titulo: "Diseño de Interfaces para la Mejora de la Experiencia Humano-Computadora",
-    fecha: "12 May 2025",
-    abstract:
-      "El presente estudio se enfoca en la interacción humano-media y el diseño centrado en el usuario.",
-    temas: ["Interacción Humano-media", "HCI (Interacción Humano-Computadora)"],
-  },
-];
-
-// Temas únicos para filtros
-const allTemas = Array.from(
-  new Set(temasData.flatMap((t) => t.temas))
-);
-
-export default function ListaTemas() {
+export default function ResultTemas({ usuario }) {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const [trabajos, setTrabajos] = useState([]);
 
-  const [selectedTemas, setSelectedTemas] = useState(new Set(allTemas));
+  useEffect(() => {
+    const fetchTrabajos = async () => {
+      if (!state?.ciclos?.length && !state?.temas?.length) return;
 
-  function toggleTema(value) {
-    const newSet = new Set(selectedTemas);
-    if (newSet.has(value)) {
-      newSet.delete(value);
-    } else {
-      newSet.add(value);
-    }
-    setSelectedTemas(newSet);
-  }
+      try {
+        const res = await axios.post("http://localhost:3002/trabajos/filtro", {
+          ciclos: state.ciclos,
+          temas: state.temas,
+        });
+        console.log("📦 Trabajos filtrados:", res.data);
+        setTrabajos(res.data);
+      } catch (error) {
+        console.error("Error al obtener trabajos:", error);
+      }
+    };
 
-  const temasFiltrados = temasData.filter((t) =>
-    t.temas.some((tema) => selectedTemas.has(tema))
-  );
+    fetchTrabajos();
+  }, [state]);
 
   return (
-    <div style={{
-      backgroundColor: "#fff",
-      minHeight: "100vh",
-      padding: "30px",
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      display: "flex",
-      gap: "40px",
-      color: "#000",
-    }}>
-      {/* Sidebar */}
-      <aside style={{
-        width: "280px",
-        backgroundColor: "#ff7f00",
-        borderRadius: "25px",
-        padding: "30px",
-        color: "#fff",
+    <div
+      style={{
+        backgroundImage: 'url("/img/fondo2.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+        width: "100vw",
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        boxShadow: "0 0 15px rgba(255,127,0,0.7)"
-      }}>
+        padding: "30px 20px",
+        boxSizing: "border-box",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      }}
+    >
+      {/* Sidebar */}
+      <aside
+        style={{
+          width: "280px",
+          backgroundColor: "rgba(255,127,0,0.95)",
+          borderRadius: "25px",
+          padding: "30px 20px",
+          color: "#fff",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+          boxShadow: "0 0 15px rgba(0,0,0,0.15)",
+        }}
+      >
         <div style={{ textAlign: "center" }}>
-          <h2 style={{ fontSize: "22px", marginBottom: "20px" }}>Filtrar por tema</h2>
-          {allTemas.map((tema) => (
-            <div key={tema} style={{ marginBottom: "10px" }}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={selectedTemas.has(tema)}
-                  onChange={() => toggleTema(tema)}
-                  style={{ marginRight: "8px" }}
-                />
-                {tema}
-              </label>
-            </div>
-          ))}
+          <div
+            style={{
+              width: "100px",
+              height: "100px",
+              backgroundColor: "#fff",
+              borderRadius: "50%",
+              marginBottom: "15px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#ff7f00",
+              fontWeight: "900",
+              fontSize: "42px",
+              userSelect: "none",
+              margin: "0 auto",
+            }}
+          >
+            {usuario?.nombres?.charAt(0) || "?"}
+          </div>
+
+          <p style={{ fontSize: "18px", fontWeight: "700", lineHeight: "1.2" }}>
+            {usuario?.nombres} <br /> {usuario?.apellidos}
+          </p>
+          <p style={{ fontSize: "14px", fontWeight: "500", marginBottom: "8px" }}>
+            {usuario?.email}
+          </p>
+          <p style={{ fontSize: "14px", fontWeight: "500" }}>Ingeniería de Sistemas</p>
         </div>
+
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/buscartema")}
           style={{
             backgroundColor: "#fff",
             color: "#ff7f00",
@@ -105,59 +96,80 @@ export default function ListaTemas() {
             fontWeight: "700",
             fontSize: "16px",
             cursor: "pointer",
-            boxShadow: "0 3px 8px rgba(255,127,0,0.7)",
-            userSelect: "none",
+            boxShadow: "0 3px 8px rgba(0,0,0,0.15)",
             marginTop: "30px",
-            alignSelf: "stretch",
+            width: "100%",
           }}
         >
-          Volver
+          Nueva búsqueda
         </button>
       </aside>
 
-      {/* Contenido principal */}
-      <main style={{
-        flex: 1,
-        backgroundColor: "#fff",
-        borderRadius: "15px",
-        padding: "30px",
-        boxShadow: "0 0 20px rgba(255,127,0,0.3)",
-        maxWidth: "700px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "30px",
-      }}>
-        <h2 style={{
-          fontWeight: "700",
-          fontSize: "24px",
-          marginBottom: "16px",
-          color: "#ff7f00",
-        }}>
-          Temas encontrados ({temasFiltrados.length})
+      {/* Resultados */}
+      <main
+        style={{
+          flex: 1,
+          marginLeft: "40px",
+          backgroundColor: "rgba(255,255,255,0.95)",
+          padding: "30px 40px",
+          borderRadius: "20px",
+          overflowY: "auto",
+          boxShadow: "0 0 15px rgba(0,0,0,0.1)",
+          color: "#000",
+        }}
+      >
+        <h2
+          style={{
+            fontSize: "30px",
+            fontWeight: "700",
+            textAlign: "center",
+            marginBottom: "25px",
+            backgroundColor: "rgba(255,255,255,0.85)",
+            borderRadius: "15px",
+            padding: "20px",
+          }}
+        >
+          TRABAJOS ENCONTRADOS
         </h2>
 
-        {temasFiltrados.length === 0 && (
-          <p>No se encontraron temas con esos filtros.</p>
-        )}
-
-        {temasFiltrados.map(({ titulo, fecha, abstract, temas }) => (
-          <article
-            key={titulo}
+        {trabajos.length === 0 ? (
+          <p
             style={{
-              borderBottom: "1px solid #ff7f00",
-              padding: "12px 0",
+              backgroundColor: "rgba(255,255,255,0.9)",
+              padding: "20px",
+              borderRadius: "12px",
+              border: "2px solid #ff7f00",
+              textAlign: "center",
             }}
           >
-            <p style={{ fontWeight: "700", fontSize: "18px" }}>{titulo}</p>
-            <p style={{ fontSize: "14px", color: "#777" }}>
-              <b>Fecha:</b> {fecha}
-            </p>
-            <p style={{ fontSize: "14px", color: "#555" }}>{abstract}</p>
-            <p style={{ fontSize: "14px", color: "#777" }}>
-              <b>Temas:</b> {temas.join(", ")}
-            </p>
-          </article>
-        ))}
+            No se encontraron trabajos para los filtros seleccionados.
+          </p>
+        ) : (
+          trabajos.map((trabajo) => (
+            <div
+              key={trabajo.id}
+              style={{
+                backgroundColor: "#fff",
+                padding: "14px 16px",
+                borderRadius: "10px",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.07)",
+                marginBottom: "14px",
+                borderLeft: "4px solid #ff7f00",
+                fontSize: "14px", 
+                lineHeight: "1.35",
+              }}
+            >
+              <h3 style={{ marginTop: 0, fontSize: "30px", fontWeight: "700" }}>{trabajo.titulo}</h3>
+              <p><b>Descripción:</b> {trabajo.descripcion}</p>
+              <p><b>Fecha:</b> {trabajo.fecharegistro?.split("T")[0]}</p>
+              <p><b>Palabras clave:</b> {trabajo.palabrasclave || "—"}</p>
+              <p><b>Ciclo:</b> {trabajo.ciclo}</p>
+              <p><b>Área:</b> {trabajo.Area?.nombre || "—"}</p>
+              <p><b>Estado:</b> {trabajo.Estado?.nombre || "—"}</p>
+              <p><b>Observaciones:</b> {trabajo.observaciones || "—"}</p>
+            </div>
+          ))
+        )}
       </main>
     </div>
   );

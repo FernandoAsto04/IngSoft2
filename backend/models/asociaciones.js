@@ -6,6 +6,7 @@ import { Usuario } from "../patrones/patronDAO/daoto/UsuarioTO.js";
 import { Trabajo } from "../patrones/patronDAO/daoto/TrabajoTO.js";
 import { Administrador } from "../patrones/patronDAO/daoto/AdministradorTO.js";
 import { Alumno } from "../patrones/patronDAO/daoto/AlumnoTO.js";
+import { Estado } from "../patrones/patronDAO/daoto/EstadoTO.js";
 
 /* 📌 AREA ↔️ LINEA: Una Área tiene muchas Líneas */
 Area.hasMany(Linea, {
@@ -83,3 +84,6 @@ Alumno.belongsTo(Usuario, {
     foreignKey: "Usuarioid",
     targetKey: "id"
 });
+
+Trabajo.belongsTo(Estado, { as: "estado", foreignKey: "Estadoid" });
+Estado.hasMany(Trabajo, { as: "trabajos", foreignKey: "Estadoid" });

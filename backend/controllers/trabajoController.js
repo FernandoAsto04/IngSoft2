@@ -51,3 +51,13 @@ export const eliminar = async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar trabajo', message: error.message });
   }
 };
+
+export const filtrar = async (req, res) => {
+  try {
+    const { ciclos = [], temas = [] } = req.body;
+    const trabajosFiltrados = await dao.filtrarTrabajosPorCicloYArea(ciclos, temas);
+    res.json(trabajosFiltrados);
+  } catch (error) {
+    res.status(500).json({ error: "Error al filtrar trabajos", message: error.message });
+  }
+};
