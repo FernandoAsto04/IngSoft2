@@ -34,3 +34,10 @@ export const eliminarProfesor = async (id) => {
   });
   return await res.json();
 };
+
+export const mostrarDatosProfesor = async (id) => {
+  const res = await fetch(`${API_URL}/mostrarDatos/${id}`);
+  if (!res.ok) throw new Error("Error al obtener datos del profesor");
+  return await res.json();
+};
+

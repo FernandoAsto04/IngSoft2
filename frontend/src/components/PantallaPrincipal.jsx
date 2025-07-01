@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTrabajos } from "./Trabajoscontext";
+import { mostrarDatosProfesor } from "../../Service/profesorService.js"; // Ajusta la ruta si es necesario
 
 export default function PantallaPrincipal({ onLogout, usuario }) {
   const navigate = useNavigate();
   const { trabajos } = useTrabajos();
+  const [datosProfesor, setDatosProfesor] = useState(null);
+
+  useEffect(() => {
+    const fetchDatos = async () => {
+      try {
+        const datos = await mostrarDatosProfesor(usuario.id); // ID del profesor
+        setDatosProfesor(datos);
+      } catch (error) {
+        console.error("❌ Error cargando datos del profesor:", error.message);
+      }
+    };
+
+    if (usuario?.rol === "PROFESOR") fetchDatos();
+  }, [usuario]);
 
   return (
     <div
@@ -49,12 +64,26 @@ export default function PantallaPrincipal({ onLogout, usuario }) {
               </svg>
             </div>
 
-            <p style={{ fontWeight: "700", fontSize: "18px", margin: "10px 0 6px 0" }}>
-              {usuario.nombres} <br /> {usuario.apellidos}
-            </p>
-            <p style={{ color: "#666", fontSize: "14px", margin: "4px 0" }}>
-              {usuario.email}
-            </p>
+            {usuario?.rol === "PROFESOR" && datosProfesor ? (
+              <>
+                <p style={{ fontWeight: "700", fontSize: "18px", margin: "10px 0 6px 0" }}>
+                  {datosProfesor.nombres} <br /> {datosProfesor.apellidos}
+                </p>
+                <p style={{ color: "#666", fontSize: "14px", margin: "4px 0" }}>
+                  {datosProfesor.correo}
+                </p>
+              </>
+            ) : (
+              <>
+                <p style={{ fontWeight: "700", fontSize: "18px", margin: "10px 0 6px 0" }}>
+                  {usuario.nombres}
+                </p>
+                <p style={{ color: "#666", fontSize: "14px", margin: "4px 0" }}>
+                  {usuario.email}
+                </p>
+              </>
+            )}
+
             <p style={{ color: "#999", fontSize: "14px", marginTop: "4px" }}>
               Ingeniería de Sistemas
             </p>
@@ -222,4 +251,3 @@ export default function PantallaPrincipal({ onLogout, usuario }) {
     </div>
   );
 }
-

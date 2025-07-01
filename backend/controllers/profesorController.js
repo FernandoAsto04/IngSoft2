@@ -51,3 +51,19 @@ export const eliminar = async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar profesor', message: error.message });
   }
 };
+
+export const mostrarDatos = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const datos = await dao.obtenerProfesorConDatos(id);
+
+    if (!datos) {
+      return res.status(404).json({ error: "Profesor no encontrado" });
+    }
+
+    res.json(datos);
+  } catch (error) {
+    res.status(500).json({ error: "Error al mostrar datos", message: error.message });
+  }
+};

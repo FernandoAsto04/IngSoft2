@@ -3,6 +3,7 @@ import { Area } from "../daoto/AreaTO.js";
 import { Linea } from "../daoto/LineaTO.js";
 import { Asesoria } from "../daoto/AsesoriaTO.js";
 import { Usuario } from "../daoto/UsuarioTO.js";
+import { ProfesorClase } from "../../../clases/profesorClase.js";
 
 export class ProfesorDAO {
   async obtenerPorVariasLineas(lineaIds) {
@@ -40,6 +41,24 @@ export class ProfesorDAO {
       ]
     });
   }
+
+  async obtenerProfesorConDatos(id) {
+    const profesorEntidad = await Profesor.findOne({
+      where: { id },
+      include: {
+        model: Usuario,
+        as: "Usuario",
+        attributes: ["nombres", "apellidos", "email"]
+      }
+    });
+
+    if (!profesorEntidad) return null;
+
+    const profesor = new ProfesorClase(profesorEntidad);
+    return profesor.mostrarDatos();
+  }
+
+
 }
 
 

@@ -35,5 +35,3 @@ export const AreaProfesor = sequelize.define(
     freezeTableName: true
   }
 );
-
-

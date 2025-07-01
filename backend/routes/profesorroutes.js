@@ -6,7 +6,8 @@ import {
   obtenerPorId,
   crear,
   actualizar,
-  eliminar
+  eliminar,
+  mostrarDatos
 } from "../controllers/profesorController.js";
 
 const router = express.Router();
@@ -18,6 +19,7 @@ router.get("/:id", obtenerPorId);
 router.post("/", crear);
 router.put("/:id", actualizar);
 router.delete("/:id", eliminar);
+router.get("/mostrarDatos/:id", mostrarDatos);
 
 // 🧠 Nueva ruta: filtrar profesores por líneas de investigación
 router.post("/lineas", async (req, res) => {
