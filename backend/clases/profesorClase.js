@@ -1,7 +1,7 @@
 export class ProfesorClase {
   constructor(profesorEntidad) {
     this.id = profesorEntidad.id;
-    this.usuario = profesorEntidad.Usuario;
+    this.usuario = profesorEntidad.usuario; //Si sale error poner la u mayuscula
   }
 
   mostrarDatos() {
