@@ -11,9 +11,10 @@ export class TrabajoClase {
     this.ciclo = trabajoClase.ciclo;
     this.visible = trabajoClase.visible;
 
-    this.area = trabajoClase.Area;
-    this.estado = trabajoClase.Estado;
-    this.tipo = trabajoClase.Tipo;
+    // Acepta tanto Area (de Sequelize) como area (del frontend)
+  this.area = trabajoClase.Area || trabajoClase.area;
+  this.estado = trabajoClase.Estado || trabajoClase.estado;
+  this.tipo = trabajoClase.Tipo || trabajoClase.tipo;
   }
 
   async guardarTrabajo() {
@@ -78,18 +79,21 @@ export class TrabajoClase {
   }
 
   mostrarDatos() {
-  return {
-    id: this.id,
-    titulo: this.titulo,
-    descripcion: this.descripcion,
-    fecharegistro: this.fecharegistro,
-    observaciones: this.observaciones,
-    palabrasclave: this.palabrasclave,
-    ciclo: this.ciclo,
-    visible: this.visible,
-    
-  };
-}
+    return {
+      id: this.id,
+      titulo: this.titulo,
+      descripcion: this.descripcion,
+      fecharegistro: this.fecharegistro,
+      observaciones: this.observaciones,
+      palabrasclave: this.palabrasclave,
+      ciclo: this.ciclo,
+      visible: this.visible,
+      area: this.area ? { id: this.area.id, nombre: this.area.nombre } : null,
+      estado: this.estado ? { id: this.estado.id, nombre: this.estado.nombre } : null,
+      tipo: this.tipo ? { id: this.tipo.id, nombre: this.tipo.nombre } : null,
+    };
+  }
+
 
   static Trabajos(listaTrabajos) {
   return listaTrabajos.map((trabajo) => {
