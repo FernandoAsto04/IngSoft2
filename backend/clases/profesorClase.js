@@ -12,4 +12,8 @@ export class ProfesorClase {
       correo: this.usuario.email
     };
   }
+
+  verProfesores(listaDeProfesores) {
+  return listaDeProfesores.map(p => new ProfesorClase(p).mostrarDatos());
+  }
 }

@@ -2,19 +2,16 @@ import { Trabajo } from "../daoto/TrabajoTO.js";
 import { Area } from "../daoto/AreaTO.js";
 import { Estado } from "../daoto/EstadoTO.js";
 import { Tipo } from "../daoto/TipoTO.js";
-import { TrabajoClase } from "../modelo/TrabajoClase.js"; // Asegúrate de tener esto
+import { TrabajoClase } from "../../../clases/trabajoClase.js";
 import { Op } from 'sequelize';
 
 export class TrabajoDAO {
-  async listarTrabajos() {
-    return await Trabajo.findAll({
-      include: [
-        { model: Area, attributes: ['id', 'nombre'] },
-        { model: Estado, attributes: ['id', 'nombre'] },
-        { model: Tipo, attributes: ['id', 'nombre'] }
-      ]
-    });
-  }
+ async listarTrabajos() {
+  const trabajos = await Trabajo.findAll({
+  });
+
+  return TrabajoClase.Trabajos(trabajos);
+}
 
   async obtenerTrabajoPorId(id) {
     return await Trabajo.findByPk(id, {
@@ -29,7 +26,7 @@ export class TrabajoDAO {
   async insertarTrabajo(data) {
     try {
       const trabajoInstancia = new TrabajoClase(data);
-      await trabajoInstancia.guardarTrabajo(); // Aquí se asignan correctamente AreaId, EstadoId, TipoId
+      await trabajoInstancia.guardarTrabajo();
       return null;
     } catch (error) {
       return error.message;
@@ -66,7 +63,7 @@ export class TrabajoDAO {
     }
 
     if (temas.length) {
-      where.AreaId = { [Op.in]: temas }; // ✅ corregido (antes: Areaid)
+      where.AreaId = { [Op.in]: temas };
     }
 
     return await Trabajo.findAll({

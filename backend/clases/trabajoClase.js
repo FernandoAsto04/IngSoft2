@@ -64,7 +64,6 @@ export class TrabajoClase {
         ciclo: this.ciclo,
         visible: this.visible,
 
-        // ✅ Cambiado para usar los nombres correctos generados por Sequelize
         AreaId: this.area.id,
         EstadoId: this.estado.id,
         TipoId: this.tipo.id,
@@ -76,5 +75,26 @@ export class TrabajoClase {
       console.error("Error en guardarTrabajo:", error);
       throw new Error("Error al guardar el trabajo en la base de datos.");
     }
+  }
+
+  mostrarDatos() {
+  return {
+    id: this.id,
+    titulo: this.titulo,
+    descripcion: this.descripcion,
+    fecharegistro: this.fecharegistro,
+    observaciones: this.observaciones,
+    palabrasclave: this.palabrasclave,
+    ciclo: this.ciclo,
+    visible: this.visible,
+    
+  };
+}
+
+  static Trabajos(listaTrabajos) {
+  return listaTrabajos.map((trabajo) => {
+    const instancia = new TrabajoClase(trabajo);
+    return instancia.mostrarDatos();
+  });
   }
 }

@@ -147,7 +147,7 @@ export default function PantallaPrincipal({ onLogout, usuario }) {
           {[
             { icon: "🔍", label: "Buscar Profesor", onClick: () => navigate("/buscarprofe") },
             { icon: "🔍", label: "Buscar Tema", onClick: () => navigate("/buscar-tema") },
-            { icon: "📁", label: "Ver trabajos", onClick: () => {} },
+            { icon: "📁", label: "Ver trabajos", onClick: () => navigate("/vertrabajos") },
           ].map(({ icon, label, onClick }) => (
             <button
               key={label}

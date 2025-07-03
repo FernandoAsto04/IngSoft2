@@ -10,6 +10,7 @@ import ListaTemas from "./components/ResultTema";
 import FormularioTrabajo from "./components/SubirTrabajo";
 import { TrabajosProvider } from "./components/Trabajoscontext";
 import ListaAsesorias from "./components/listaAsesoria";
+import VerTrabajos from "./components/VerTrabajos";
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
           <Route path="/resultemas" element={<ListaTemas usuario={usuario}/>} />
           <Route path="/nuevotrabajo" element={<FormularioTrabajo />} />
           <Route path="/listaAsesorias" element={<ListaAsesorias/>} />
+          <Route path="/vertrabajos" element={<VerTrabajos/>} />
           {/* Si no hay coincidencia redirigir a "/" */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

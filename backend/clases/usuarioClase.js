@@ -24,4 +24,10 @@ export class UsuarioClase {
   esProfesor() {
     return this.rol === 'profesor';
   }
+
+  iniciarSesion(){
+
+    
+  }
+
 }
