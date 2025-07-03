@@ -1,64 +1,81 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTrabajos } from "./Trabajoscontext";
+import { crearTrabajo } from "../../Service/trabajoService";
+import { obtenerAreas } from "../../Service/areaService";
+import { obtenerLineas } from "../../Service/lineaService";
 
 export default function FormularioTrabajo() {
-  const { agregarTrabajo } = useTrabajos();
   const navigate = useNavigate();
+  const [areas, setAreas] = useState([]);
+  const [lineas, setLineas] = useState([]);
 
   const [formData, setFormData] = useState({
     titulo: "",
     abstract: "",
     area: "",
     lineaInvestigacion: "",
+    tipo: "1",
     palabrasClave: "",
     archivo: null,
-    estado: "En proceso",
+    observaciones: "",
+    ciclo: "2025-1",
+    estado: "1",
   });
+
+  useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        const areasBD = await obtenerAreas();
+        const lineasBD = await obtenerLineas();
+        setAreas(areasBD);
+        setLineas(lineasBD);
+      } catch (error) {
+        alert("Error al cargar áreas o líneas: " + error.message);
+      }
+    };
+    cargarDatos();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "archivo") {
       setFormData((prev) => ({ ...prev, archivo: files[0] }));
-    }else{
+    } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const nuevoTrabajo = {
+    const trabajoParaEnviar = {
       titulo: formData.titulo,
-      fecha: new Date().toLocaleDateString("es-PE", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }),
-      abstract: formData.abstract,
-      temas: [
-        formData.area,
-        formData.lineaInvestigacion,
-        ...formData.palabrasClave
-          .split(",")
-          .map((p) => p.trim())
-          .filter((p) => p !== ""),
-      ],
-      archivo: formData.archivo,
-      estado: formData.estado,
+      descripcion: formData.abstract,
+      fecharegistro: new Date().toISOString(),
+      observaciones: formData.observaciones,
+      palabrasclave: formData.palabrasClave,
+      ciclo: formData.ciclo,
+      visible: true,
+      Area: { id: parseInt(formData.area) },
+      Estado: { id: parseInt(formData.estado) },
+      Tipo: { id: parseInt(formData.tipo) },
+      // Línea puede añadirse si el backend lo permite
+      // Linea: { id: parseInt(formData.lineaInvestigacion) },
     };
 
-    agregarTrabajo(nuevoTrabajo);
-    alert("Trabajo guardado correctamente");
-    navigate("/");
+    try {
+      await crearTrabajo(trabajoParaEnviar);
+      alert("Trabajo guardado correctamente");
+      navigate("/");
+    } catch (error) {
+      alert("Error al guardar trabajo: " + error.message);
+    }
   };
 
   return (
     <div style={paginaStyle}>
       <div style={containerStyle}>
-        <h2 style={{ color: "#000", marginBottom: "20px", textAlign: "center", fontWeight: "700", fontSize: "34px" }}>
-          Registrar nuevo trabajo
-        </h2>
+        <h2 style={tituloStyle}>Registrar nuevo trabajo</h2>
         <form onSubmit={handleSubmit} style={formStyle}>
           <label style={labelStyle}>
             Adjuntar documento:
@@ -67,38 +84,129 @@ export default function FormularioTrabajo() {
               name="archivo"
               accept=".pdf,.doc,.docx"
               onChange={handleChange}
-              required
               style={inputStyle}
-              />
+            />
           </label>
+
           <label style={labelStyle}>
             Título:
-            <input type="text" name="titulo" value={formData.titulo} onChange={handleChange} required style={inputStyle} />
+            <input
+              type="text"
+              name="titulo"
+              value={formData.titulo}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
           </label>
+
           <label style={labelStyle}>
             Abstract:
-            <textarea name="abstract" value={formData.abstract} onChange={handleChange} required rows="4" style={inputStyle} />
+            <textarea
+              name="abstract"
+              value={formData.abstract}
+              onChange={handleChange}
+              required
+              rows="4"
+              style={inputStyle}
+            />
           </label>
+
           <label style={labelStyle}>
-            Área:
-            <input type="text" name="area" value={formData.area} onChange={handleChange} required style={inputStyle} />
+            Observaciones:
+            <textarea
+              name="observaciones"
+              value={formData.observaciones}
+              onChange={handleChange}
+              rows="3"
+              style={inputStyle}
+            />
           </label>
-          <label style={labelStyle}>
-            Línea de investigación:
-            <input type="text" name="lineaInvestigacion" value={formData.lineaInvestigacion} onChange={handleChange} required style={inputStyle} />
-          </label>
+
           <label style={labelStyle}>
             Palabras clave (separadas por coma):
-            <input type="text" name="palabrasClave" value={formData.palabrasClave} onChange={handleChange} required style={inputStyle} />
+            <input
+              type="text"
+              name="palabrasClave"
+              value={formData.palabrasClave}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
           </label>
+
           <label style={labelStyle}>
-            Estado:
-            <select name="estado" value={formData.estado} onChange={handleChange} style={inputStyle}>
-              <option value="En desarrollo">En desarrollo</option>
-              <option value="Abandonado">Abandonado</option>
-              <option value="Termiando ">Terminado</option>
+            Ciclo:
+            <input
+              type="text"
+              name="ciclo"
+              value={formData.ciclo}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            />
+          </label>
+
+          <label style={labelStyle}>
+            Área:
+            <select
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            >
+              <option value="">Seleccione un área</option>
+              {areas.map((area) => (
+                <option key={area.id} value={area.id}>{area.nombre}</option>
+              ))}
             </select>
           </label>
+
+          <label style={labelStyle}>
+            Línea de investigación:
+            <select
+              name="lineaInvestigacion"
+              value={formData.lineaInvestigacion}
+              onChange={handleChange}
+              required
+              style={inputStyle}
+            >
+              <option value="">Seleccione una línea</option>
+              {lineas.map((linea) => (
+                <option key={linea.id} value={linea.id}>{linea.nombre}</option>
+              ))}
+            </select>
+          </label>
+
+          <label style={labelStyle}>
+            Tipo:
+            <select
+              name="tipo"
+              value={formData.tipo}
+              onChange={handleChange}
+              style={inputStyle}
+            >
+              <option value="1">Tesis</option>
+              <option value="2">Proyecto</option>
+              <option value="3">Investigación</option>
+            </select>
+          </label>
+
+          <label style={labelStyle}>
+            Estado:
+            <select
+              name="estado"
+              value={formData.estado}
+              onChange={handleChange}
+              style={inputStyle}
+            >
+              <option value="1">En desarrollo</option>
+              <option value="2">Abandonado</option>
+              <option value="3">Terminado</option>
+            </select>
+          </label>
+
           <button type="submit" style={buttonStyle}>Guardar</button>
         </form>
       </div>
@@ -106,7 +214,7 @@ export default function FormularioTrabajo() {
   );
 }
 
-// 💡 Estilos
+// 🎨 Estilos
 const paginaStyle = {
   backgroundImage: 'url("/img/fondo2.jpg")',
   backgroundSize: "cover",
@@ -128,6 +236,14 @@ const containerStyle = {
   borderRadius: "15px",
   boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)",
   fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+};
+
+const tituloStyle = {
+  color: "#000",
+  marginBottom: "20px",
+  textAlign: "center",
+  fontWeight: "700",
+  fontSize: "34px",
 };
 
 const formStyle = {
@@ -164,4 +280,3 @@ const buttonStyle = {
   cursor: "pointer",
   marginTop: "10px",
 };
-

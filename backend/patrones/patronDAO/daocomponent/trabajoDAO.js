@@ -1,15 +1,17 @@
 import { Trabajo } from "../daoto/TrabajoTO.js";
 import { Area } from "../daoto/AreaTO.js";
-import { Estado } from "../daoto/EstadoTO.js";  
-
+import { Estado } from "../daoto/EstadoTO.js";
+import { Tipo } from "../daoto/TipoTO.js";
+import { TrabajoClase } from "../modelo/TrabajoClase.js"; // Asegúrate de tener esto
 import { Op } from 'sequelize';
 
 export class TrabajoDAO {
   async listarTrabajos() {
     return await Trabajo.findAll({
       include: [
-        { model: Area, as: 'area', attributes: ['id', 'nombre'] },
-        { model: Estado, as: 'estado', attributes: ['id', 'nombre'] }
+        { model: Area, attributes: ['id', 'nombre'] },
+        { model: Estado, attributes: ['id', 'nombre'] },
+        { model: Tipo, attributes: ['id', 'nombre'] }
       ]
     });
   }
@@ -17,15 +19,17 @@ export class TrabajoDAO {
   async obtenerTrabajoPorId(id) {
     return await Trabajo.findByPk(id, {
       include: [
-        { model: Area, as: 'area', attributes: ['id', 'nombre'] },
-        { model: Estado, as: 'estado', attributes: ['id', 'nombre'] }
+        { model: Area, attributes: ['id', 'nombre'] },
+        { model: Estado, attributes: ['id', 'nombre'] },
+        { model: Tipo, attributes: ['id', 'nombre'] }
       ]
     });
   }
 
   async insertarTrabajo(data) {
     try {
-      await Trabajo.create(data);
+      const trabajoInstancia = new TrabajoClase(data);
+      await trabajoInstancia.guardarTrabajo(); // Aquí se asignan correctamente AreaId, EstadoId, TipoId
       return null;
     } catch (error) {
       return error.message;
@@ -62,22 +66,15 @@ export class TrabajoDAO {
     }
 
     if (temas.length) {
-      where.Areaid = { [Op.in]: temas };
+      where.AreaId = { [Op.in]: temas }; // ✅ corregido (antes: Areaid)
     }
 
     return await Trabajo.findAll({
       where,
       include: [
-        {
-          model: Area,
-          as: 'Area',
-          attributes: ['id', 'nombre']
-        },
-        {
-          model: Estado,
-          as: 'Estado',
-          attributes: ['id', 'nombre']
-        }
+        { model: Area, attributes: ['id', 'nombre'] },
+        { model: Estado, attributes: ['id', 'nombre'] },
+        { model: Tipo, attributes: ['id', 'nombre'] }
       ],
       order: [['fecharegistro', 'DESC']]
     });

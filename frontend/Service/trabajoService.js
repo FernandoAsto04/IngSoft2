@@ -16,6 +16,12 @@ export const crearTrabajo = async (trabajo) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(trabajo),
   });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || 'Error al crear trabajo');
+  }
+
   return await res.json();
 };
 

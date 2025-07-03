@@ -1,3 +1,5 @@
+import { Trabajo } from "../models/Trabajo.js";
+
 export class TrabajoClase {
   constructor(trabajoClase) {
     this.id = trabajoClase.id;
@@ -14,5 +16,65 @@ export class TrabajoClase {
     this.tipo = trabajoClase.Tipo;
   }
 
-  
+  async guardarTrabajo() {
+    // Validaciones para pruebas de caja blanca (grado 4)
+    if (!this.titulo || this.titulo.trim() === "") {
+      throw new Error("El título del trabajo es obligatorio.");
+    }
+
+    if (!this.descripcion || this.descripcion.trim().length < 10) {
+      throw new Error("La descripción debe tener al menos 10 caracteres.");
+    }
+
+    if (!this.fecharegistro || isNaN(Date.parse(this.fecharegistro))) {
+      throw new Error("Fecha de registro inválida.");
+    }
+
+    if (this.palabrasclave && typeof this.palabrasclave !== "string") {
+      throw new Error("Las palabras clave deben ser un texto.");
+    }
+
+    if (!this.ciclo || !/^20\d{2}-[12]$/.test(this.ciclo)) {
+      throw new Error("El ciclo debe tener el formato correcto (ej. 2025-1).");
+    }
+
+    if (typeof this.visible !== "boolean") {
+      throw new Error("El campo 'visible' debe ser booleano.");
+    }
+
+    if (!this.area?.id || !Number.isInteger(this.area.id)) {
+      throw new Error("Área no válida.");
+    }
+
+    if (!this.estado?.id || !Number.isInteger(this.estado.id)) {
+      throw new Error("Estado no válido.");
+    }
+
+    if (!this.tipo?.id || !Number.isInteger(this.tipo.id)) {
+      throw new Error("Tipo no válido.");
+    }
+
+    try {
+      const nuevoTrabajo = await Trabajo.create({
+        titulo: this.titulo,
+        descripcion: this.descripcion,
+        fecharegistro: new Date(this.fecharegistro),
+        observaciones: this.observaciones,
+        palabrasclave: this.palabrasclave,
+        ciclo: this.ciclo,
+        visible: this.visible,
+
+        // ✅ Cambiado para usar los nombres correctos generados por Sequelize
+        AreaId: this.area.id,
+        EstadoId: this.estado.id,
+        TipoId: this.tipo.id,
+      });
+
+      this.id = nuevoTrabajo.id;
+      return nuevoTrabajo;
+    } catch (error) {
+      console.error("Error en guardarTrabajo:", error);
+      throw new Error("Error al guardar el trabajo en la base de datos.");
+    }
+  }
 }

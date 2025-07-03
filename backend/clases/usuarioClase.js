@@ -13,16 +13,6 @@ export class UsuarioClase {
     this.administradores = UsuarioClase.Administradores || [];
   }
 
-  mostrarDatos() {
-    return {
-      id: this.id,
-      nombres: this.nombres,
-      apellidos: this.apellidos,
-      email: this.email,
-      rol: this.rol
-    };
-  }
-
   esAdministrador() {
     return this.rol === 'administrador';
   }

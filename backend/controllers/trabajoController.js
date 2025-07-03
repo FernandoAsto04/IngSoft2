@@ -23,7 +23,7 @@ export const obtenerPorId = async (req, res) => {
 
 export const crear = async (req, res) => {
   try {
-    const error = await dao.insertarTrabajo(req.body);
+    const error = await dao.insertarTrabajo(req.body); // ✅ Usa el DAO, no TrabajoClase directo
     if (error) throw new Error(error);
     res.status(201).json({ message: 'Trabajo creado correctamente' });
   } catch (error) {
