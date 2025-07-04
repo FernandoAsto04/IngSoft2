@@ -56,11 +56,11 @@ export default function FormularioTrabajo() {
       palabrasclave: formData.palabrasClave,
       ciclo: formData.ciclo,
       visible: true,
-      Area: { id: parseInt(formData.area) },
-      Estado: { id: parseInt(formData.estado) },
-      Tipo: { id: parseInt(formData.tipo) },
-      // Línea puede añadirse si el backend lo permite
-      // Linea: { id: parseInt(formData.lineaInvestigacion) },
+      Areaid: parseInt(formData.area),
+      Estadoid: parseInt(formData.estado),
+      Tipoid: parseInt(formData.tipo),
+      // Línea de investigación (opcional)
+      // Lineaid: parseInt(formData.lineaInvestigacion)
     };
 
     try {

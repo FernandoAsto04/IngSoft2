@@ -22,5 +22,3 @@ export const Trabajo = sequelize.define(
         freezeTableName: true //Para que se mantenga el nombre de la tabla
     }
 );
-
-

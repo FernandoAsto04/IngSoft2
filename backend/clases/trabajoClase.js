@@ -11,14 +11,14 @@ export class TrabajoClase {
     this.ciclo = trabajoClase.ciclo;
     this.visible = trabajoClase.visible;
 
-    // Acepta tanto Area (de Sequelize) como area (del frontend)
-  this.area = trabajoClase.Area || trabajoClase.area;
-  this.estado = trabajoClase.Estado || trabajoClase.estado;
-  this.tipo = trabajoClase.Tipo || trabajoClase.tipo;
+    // Acepta el formato directo con ID (Areaid, Estadoid, Tipoid)
+    this.Areaid = trabajoClase.Areaid || trabajoClase.area?.id;
+    this.Estadoid = trabajoClase.Estadoid || trabajoClase.estado?.id;
+    this.Tipoid = trabajoClase.Tipoid || trabajoClase.tipo?.id;
   }
 
-  async guardarTrabajo() {
-    // Validaciones para pruebas de caja blanca (grado 4)
+
+    async guardarTrabajo() {
     if (!this.titulo || this.titulo.trim() === "") {
       throw new Error("El título del trabajo es obligatorio.");
     }
@@ -43,15 +43,15 @@ export class TrabajoClase {
       throw new Error("El campo 'visible' debe ser booleano.");
     }
 
-    if (!this.area?.id || !Number.isInteger(this.area.id)) {
+    if (!this.Areaid || !Number.isInteger(this.Areaid)) {
       throw new Error("Área no válida.");
     }
 
-    if (!this.estado?.id || !Number.isInteger(this.estado.id)) {
+    if (!this.Estadoid || !Number.isInteger(this.Estadoid)) {
       throw new Error("Estado no válido.");
     }
 
-    if (!this.tipo?.id || !Number.isInteger(this.tipo.id)) {
+    if (!this.Tipoid || !Number.isInteger(this.Tipoid)) {
       throw new Error("Tipo no válido.");
     }
 
@@ -64,10 +64,9 @@ export class TrabajoClase {
         palabrasclave: this.palabrasclave,
         ciclo: this.ciclo,
         visible: this.visible,
-
-        AreaId: this.area.id,
-        EstadoId: this.estado.id,
-        TipoId: this.tipo.id,
+        Areaid: this.Areaid,
+        Estadoid: this.Estadoid,
+        Tipoid: this.Tipoid,
       });
 
       this.id = nuevoTrabajo.id;
@@ -77,6 +76,7 @@ export class TrabajoClase {
       throw new Error("Error al guardar el trabajo en la base de datos.");
     }
   }
+
 
   mostrarDatos() {
     return {
@@ -94,11 +94,10 @@ export class TrabajoClase {
     };
   }
 
-
   static Trabajos(listaTrabajos) {
-  return listaTrabajos.map((trabajo) => {
-    const instancia = new TrabajoClase(trabajo);
-    return instancia.mostrarDatos();
-  });
+    return listaTrabajos.map((trabajo) => {
+      const instancia = new TrabajoClase(trabajo);
+      return instancia.mostrarDatos();
+    });
   }
 }
