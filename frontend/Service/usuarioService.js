@@ -7,6 +7,7 @@ export const obtenerUsuarios = async () => {
 
 export const obtenerUsuario = async (id) => {
   const res = await fetch(`${API_URL}/${id}`);
+  if (!res.ok) throw new Error("Error al obtener usuario");
   return await res.json();
 };
 

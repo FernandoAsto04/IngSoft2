@@ -1,19 +1,19 @@
-export class ProfesorClase {
+import { UsuarioClase } from "./usuarioClase.js";
+
+export class ProfesorClase extends UsuarioClase {
   constructor(profesorEntidad) {
+    super(
+      profesorEntidad.usuario.nombres,
+      profesorEntidad.usuario.apellidos,
+      profesorEntidad.usuario.email
+    );
     this.id = profesorEntidad.id;
-    this.usuario = profesorEntidad.usuario; //Si sale error poner la u mayuscula
   }
 
   mostrarDatos() {
     return {
       id: this.id,
-      nombres: this.usuario.nombres,
-      apellidos: this.usuario.apellidos,
-      correo: this.usuario.email
+      ...super.mostrarDatos()
     };
-  }
-
-  verProfesores(listaDeProfesores) {
-  return listaDeProfesores.map(p => new ProfesorClase(p).mostrarDatos());
   }
 }

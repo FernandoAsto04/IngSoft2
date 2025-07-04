@@ -58,6 +58,19 @@ export class ProfesorDAO {
     return profesor.mostrarDatos();
   }
 
+  async obtenerUsuarioPorId(id) {
+    const entidad = await Usuario.findByPk(id, {
+      include: [Alumno, Profesor, Administrador]
+    });
+
+    if (!entidad) return null;
+
+    if (entidad.Profesor) return new ProfesorClase(entidad.Profesor).mostrarDatos();
+    if (entidad.Alumno) return new AlumnoClase(entidad.Alumno).mostrarDatos();
+    if (entidad.Administrador) return new AdministradorClase(entidad.Administrador).mostrarDatos();
+
+    return null;
+  }
 
 }
 

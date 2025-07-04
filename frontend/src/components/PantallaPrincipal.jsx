@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTrabajos } from "./Trabajoscontext";
-import { mostrarDatosProfesor } from "../../Service/profesorService.js"; // Ajusta la ruta si es necesario
+import { obtenerUsuario } from "../../Service/usuarioService.js"; // ✅ Importa el servicio general
 
 export default function PantallaPrincipal({ onLogout, usuario }) {
   const navigate = useNavigate();
   const { trabajos } = useTrabajos();
-  const [datosProfesor, setDatosProfesor] = useState(null);
+  const [datosUsuario, setDatosUsuario] = useState(usuario); // ✅ Usa datos del login directamente
 
   useEffect(() => {
     const fetchDatos = async () => {
       try {
-        const datos = await mostrarDatosProfesor(usuario.id); // ID del profesor
-        setDatosProfesor(datos);
+        const datos = await obtenerUsuario(usuario.id); // ✅ Obtiene más detalles del backend
+        if (datos) {
+          setDatosUsuario(prev => ({ ...prev, ...datos })); // ✅ Combina login + backend
+        }
       } catch (error) {
-        console.error("❌ Error cargando datos del profesor:", error.message);
+        console.error("❌ Error cargando datos del usuario:", error.message);
       }
     };
 
-    if (usuario?.rol === "PROFESOR") fetchDatos();
+    if (usuario?.rol) fetchDatos();
   }, [usuario]);
 
   return (
@@ -64,31 +66,18 @@ export default function PantallaPrincipal({ onLogout, usuario }) {
               </svg>
             </div>
 
-            {usuario?.rol === "PROFESOR" && datosProfesor ? (
-              <>
-                <p style={{ fontWeight: "700", fontSize: "18px", margin: "10px 0 6px 0" }}>
-                  {datosProfesor.nombres} <br /> {datosProfesor.apellidos}
-                </p>
-                <p style={{ color: "#666", fontSize: "14px", margin: "4px 0" }}>
-                  {datosProfesor.correo}
-                </p>
-              </>
-            ) : (
-              <>
-                <p style={{ fontWeight: "700", fontSize: "18px", margin: "10px 0 6px 0" }}>
-                  {usuario.nombres}
-                </p>
-                <p style={{ color: "#666", fontSize: "14px", margin: "4px 0" }}>
-                  {usuario.email}
-                </p>
-              </>
-            )}
+            <p style={{ fontWeight: "700", fontSize: "18px", margin: "10px 0 6px 0" }}>
+              {datosUsuario?.nombres} <br /> {datosUsuario?.apellidos}
+            </p>
+            <p style={{ color: "#666", fontSize: "14px", margin: "4px 0" }}>
+              {datosUsuario?.correo || datosUsuario?.email}
+            </p>
 
             <p style={{ color: "#999", fontSize: "14px", marginTop: "4px" }}>
               Ingeniería de Sistemas
             </p>
             <p style={{ color: "#999", fontSize: "14px", marginTop: "4px" }}>
-              {usuario.rol}
+              {usuario?.rol}
             </p>
           </div>
 

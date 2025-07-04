@@ -14,11 +14,11 @@ export const obtenerTodos = async (req, res) => {
 
 export const obtenerPorId = async (req, res) => {
   try {
-    const usuario = await dao.obtenerUsuarioPorId(req.params.id);
-    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
-    res.json(usuario);
+    const datos = await dao.obtenerUsuarioPorId(req.params.id);
+    if (!datos) return res.status(404).json({ error: "Usuario no encontrado" });
+    res.json(datos);
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener usuario', message: error.message });
+    res.status(500).json({ error: "Error al obtener datos", message: error.message });
   }
 };
 

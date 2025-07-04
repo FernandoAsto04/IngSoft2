@@ -1,16 +1,16 @@
 export class UsuarioClase {
   constructor(usuarioEntidad) {
-    this.id = UsuarioClase.id;
-    this.nombres = UsuarioClase.nombres;
-    this.apellidos = UsuarioClase.apellidos;
-    this.email = UsuarioClase.email;
-    this.contrasenia = UsuarioClase.contrasenia;
-    this.rol = UsuarioClase.rol;
+    this.id = usuarioEntidad.id;
+    this.nombres = usuarioEntidad.nombres;
+    this.apellidos = usuarioEntidad.apellidos;
+    this.email = usuarioEntidad.email;
+    this.contrasenia = usuarioEntidad.contrasenia;
+    this.rol = usuarioEntidad.rol;
 
     // Relaciones opcionales
-    this.alumnos = UsuarioClase.Alumnos || [];
-    this.profesores = UsuarioClase.Profesores || [];
-    this.administradores = UsuarioClase.Administradores || [];
+    this.alumnos = usuarioEntidad.Alumnos || [];
+    this.profesores = usuarioEntidad.Profesores || [];
+    this.administradores = usuarioEntidad.Administradores || [];
   }
 
   esAdministrador() {
@@ -25,9 +25,12 @@ export class UsuarioClase {
     return this.rol === 'profesor';
   }
 
-  iniciarSesion(){
-
-    
+  mostrarDatosUsuario() {
+    return {
+      id: this.id,
+      nombres: this.nombres,
+      apellidos: this.apellidos,
+      correo: this.email
+    };
   }
-
 }
