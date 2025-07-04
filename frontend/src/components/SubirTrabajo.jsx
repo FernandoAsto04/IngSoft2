@@ -59,8 +59,7 @@ export default function FormularioTrabajo() {
       Areaid: parseInt(formData.area),
       Estadoid: parseInt(formData.estado),
       Tipoid: parseInt(formData.tipo),
-      // Línea de investigación (opcional)
-      // Lineaid: parseInt(formData.lineaInvestigacion)
+      Lineaid: parseInt(formData.lineaInvestigacion),
     };
 
     try {
@@ -76,6 +75,11 @@ export default function FormularioTrabajo() {
     <div style={paginaStyle}>
       <div style={containerStyle}>
         <h2 style={tituloStyle}>Registrar nuevo trabajo</h2>
+
+        <button type="button" onClick={() => navigate(-1)} style={botonVolverStyle}>
+          ⬅ Volver
+        </button>
+
         <form onSubmit={handleSubmit} style={formStyle}>
           <label style={labelStyle}>
             Adjuntar documento:
@@ -220,12 +224,12 @@ const paginaStyle = {
   backgroundSize: "cover",
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
-  height: "100vh",
+  minHeight: "100vh",
   width: "100vw",
   display: "flex",
   justifyContent: "center",
-  alignItems: "center",
   padding: "40px 20px",
+  overflowY: "auto",
 };
 
 const containerStyle = {
@@ -244,6 +248,19 @@ const tituloStyle = {
   textAlign: "center",
   fontWeight: "700",
   fontSize: "34px",
+};
+
+const botonVolverStyle = {
+  backgroundColor: "#ccc",
+  color: "#000",
+  padding: "8px 16px",
+  border: "none",
+  borderRadius: "10px",
+  fontWeight: "bold",
+  fontSize: "14px",
+  cursor: "pointer",
+  marginBottom: "20px",
+  alignSelf: "flex-start",
 };
 
 const formStyle = {
