@@ -5,8 +5,9 @@ const dao = new TrabajoDAO();
 export const obtenerTodos = async (req, res) => {
   try {
     const trabajos = await dao.listarTrabajos();
-    res.json(trabajos);
+    res.json(trabajos); 
   } catch (error) {
+    console.error("🔥 Error en obtenerTodos:", error);
     res.status(500).json({ error: 'Error al obtener trabajos', message: error.message });
   }
 };

@@ -8,14 +8,14 @@ import { Op } from 'sequelize';
 export class TrabajoDAO {
  async listarTrabajos() {
   const trabajos = await Trabajo.findAll({
-  include: [
-    { model: Area, attributes: ['id', 'nombre'] },
-    { model: Estado, attributes: ['id', 'nombre'] },
-    { model: Tipo, attributes: ['id', 'nombre'] }
-  ]
-});
+    include: [
+      { model: Area, attributes: ['id', 'nombre'] },
+      { model: Estado, attributes: ['id', 'nombre'] },
+      { model: Tipo, attributes: ['id', 'nombre'] }
+    ]
+  });
 
-  return TrabajoClase.Trabajos(trabajos);
+  return TrabajoClase.Trabajos(trabajos); // transforma para frontend
 }
 
   async obtenerTrabajoPorId(id) {

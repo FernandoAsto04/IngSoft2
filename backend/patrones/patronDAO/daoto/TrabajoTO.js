@@ -11,12 +11,11 @@ export const Trabajo = sequelize.define(
         },
         titulo: DataTypes.STRING,
         descripcion: DataTypes.STRING,
-        fechaDeRegistro: DataTypes.DATE,
-        estado: DataTypes.STRING,
+        fecharegistro: DataTypes.DATE,
         observaciones: DataTypes.STRING,
-        profesorAsesor: DataTypes.STRING,
-        palabrasClave: DataTypes.STRING,
+        palabrasclave: DataTypes.STRING,
         ciclo: DataTypes.STRING,
+        visible: DataTypes.BOOLEAN,
     }, {
         timestamps:false,
         freezeTableName: true //Para que se mantenga el nombre de la tabla
