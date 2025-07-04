@@ -1,13 +1,20 @@
 import { TrabajoDAO } from '../patrones/patronDAO/daocomponent/trabajoDAO.js';
+import { Trabajo } from "../models/Trabajo.js";
+import { Area } from "../models/Area.js";
+import { Estado } from "../models/Estado.js";
+import { Tipo } from "../models/Tipo.js";
+
+
 
 const dao = new TrabajoDAO();
 
 export const obtenerTodos = async (req, res) => {
   try {
-    const trabajos = await dao.listarTrabajos();
+    const trabajos = await dao.listarTrabajos(); // <-- esta función sí devuelve el formato correcto
     res.json(trabajos);
   } catch (error) {
-    res.status(500).json({ error: 'Error al obtener trabajos', message: error.message });
+    console.error("❌ Error general en obtenerTodos:", error);
+    res.status(500).json({ error: "Error al obtener trabajos" });
   }
 };
 

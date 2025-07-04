@@ -11,10 +11,13 @@ export class TrabajoClase {
     this.ciclo = trabajoClase.ciclo;
     this.visible = trabajoClase.visible;
 
-    // Acepta el formato directo con ID (Areaid, Estadoid, Tipoid)
-    this.Areaid = trabajoClase.Areaid || trabajoClase.area?.id;
-    this.Estadoid = trabajoClase.Estadoid || trabajoClase.estado?.id;
-    this.Tipoid = trabajoClase.Tipoid || trabajoClase.tipo?.id;
+    this.Areaid = trabajoClase.Areaid || trabajoClase.Area?.id;
+  this.Estadoid = trabajoClase.Estadoid || trabajoClase.Estado?.id;
+  this.Tipoid = trabajoClase.Tipoid || trabajoClase.Tipo?.id;
+
+  this.area = trabajoClase.area || trabajoClase.Area || null;
+  this.estado = trabajoClase.estado || trabajoClase.Estado || null;
+  this.tipo = trabajoClase.tipo || trabajoClase.Tipo || null;
   }
 
 
@@ -96,6 +99,7 @@ export class TrabajoClase {
 
   static Trabajos(listaTrabajos) {
     return listaTrabajos.map((trabajo) => {
+      console.log("Trabajo bruto:", trabajo); // 👈 pon esto
       const instancia = new TrabajoClase(trabajo);
       return instancia.mostrarDatos();
     });
