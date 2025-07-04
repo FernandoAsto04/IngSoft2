@@ -8,7 +8,7 @@ export const Alumno = sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
-        codalumno: DataTypes.STRING,
+        codAlumno: DataTypes.INTEGER,
     }, {
         timestamps: false,
         freezeTableName: true

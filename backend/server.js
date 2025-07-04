@@ -25,7 +25,6 @@ import {Profesor} from "./models/Profesor.js";
 import {Trabajo} from "./models/Trabajo.js";
 import {Usuario} from "./models/Usuario.js";
 import {Tipo} from "./models/Tipo.js";
-import "./models/asociaciones.js";
 
 
 

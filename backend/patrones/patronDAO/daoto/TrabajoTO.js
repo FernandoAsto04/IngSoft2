@@ -1,9 +1,6 @@
 import {DataTypes } from "sequelize";
 import { sequelize } from "../../../database/database.js";
 
-
-
-
 // Así se crea un modelo, osea una tabla, se comporta de igual forma como el Modelo Relacional
 export const Trabajo = sequelize.define(
     "Trabajo", {
@@ -14,13 +11,16 @@ export const Trabajo = sequelize.define(
         },
         titulo: DataTypes.STRING,
         descripcion: DataTypes.STRING,
-        fecharegistro: DataTypes.DATE,
+        fechaDeRegistro: DataTypes.DATE,
+        estado: DataTypes.STRING,
         observaciones: DataTypes.STRING,
-        palabrasclave: DataTypes.STRING,
+        profesorAsesor: DataTypes.STRING,
+        palabrasClave: DataTypes.STRING,
         ciclo: DataTypes.STRING,
-        visible: DataTypes.BOOLEAN,
     }, {
         timestamps:false,
         freezeTableName: true //Para que se mantenga el nombre de la tabla
     }
 );
+
+

@@ -26,4 +26,3 @@ Trabajo.belongsTo(Tipo, {
     foreignKey: "Tipoid",
     targetKey: "id"
 });
-

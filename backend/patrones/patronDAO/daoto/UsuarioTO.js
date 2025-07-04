@@ -14,7 +14,7 @@ export const Usuario = sequelize.define(
         nombres: DataTypes.STRING,
         apellidos: DataTypes.STRING,
         email: DataTypes.STRING,
-        contrasenia: DataTypes.STRING,
+        password: DataTypes.STRING,
         rol: DataTypes.STRING,
     }, {
         timestamps: false,
@@ -22,3 +22,34 @@ export const Usuario = sequelize.define(
     }
 );
 
+//Relacion Usuario - Alumno
+Usuario.hasMany(Alumno, { 
+    foreignKey: "usuarioId",
+    sourceKey: "id"
+});
+Alumno.belongsTo(Usuario, { 
+    foreignKey: "usuarioId",
+    targetKey: "id"
+});
+
+//Relacion Usuario - Profesor
+
+Usuario.hasMany(Profesor, { 
+    foreignKey: "usuarioId",
+    sourceKey: "id"
+});
+Profesor.belongsTo(Usuario, { 
+    foreignKey: "usuarioId",
+    targetKey: "id"
+});
+
+//Relacion Usuario - Administrador
+
+Usuario.hasMany(Administrador, { 
+    foreignKey: "usuarioId",
+    sourceKey: "id"
+});
+Administrador.belongsTo(Usuario, { 
+    foreignKey: "usuarioId",
+    targetKey: "id"
+});

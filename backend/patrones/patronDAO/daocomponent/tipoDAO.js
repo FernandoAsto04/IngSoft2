@@ -1,4 +1,4 @@
-import { Tipo } from "../daoto/tipoTO.js"
+import { Tipo } from "../daoto/TipoTO.js";
 
 export class TipoDAO {
   async listarTipos() {
