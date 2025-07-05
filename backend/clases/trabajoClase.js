@@ -16,9 +16,9 @@ export class TrabajoClase {
     this.Estadoid = trabajoClase.Estadoid || trabajoClase.estado?.id;
     this.Tipoid = trabajoClase.Tipoid || trabajoClase.tipo?.id;
 
-    this.area = trabajoClase.area || null;
-    this.estado = trabajoClase.estado || null;
-    this.tipo = trabajoClase.tipo || null;
+    this.area = trabajoClase.Area || null;
+    this.estado = trabajoClase.Estado || null;
+    this.tipo = trabajoClase.Tipo || null;
   }
 
 

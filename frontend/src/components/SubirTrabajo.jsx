@@ -191,9 +191,9 @@ export default function FormularioTrabajo() {
               onChange={handleChange}
               style={inputStyle}
             >
-              <option value="1">Tesis</option>
-              <option value="2">Proyecto</option>
-              <option value="3">Investigación</option>
+              <option value="1">Paper</option>
+              <option value="2">Tesis</option>
+              <option value="3">Articulo</option>
             </select>
           </label>
 
@@ -206,8 +206,8 @@ export default function FormularioTrabajo() {
               style={inputStyle}
             >
               <option value="1">En desarrollo</option>
-              <option value="2">Abandonado</option>
-              <option value="3">Terminado</option>
+              <option value="2">Terminado</option>
+              <option value="3">Abandonado</option>
             </select>
           </label>
 
