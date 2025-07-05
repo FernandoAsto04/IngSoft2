@@ -10,7 +10,7 @@ const dao = new TrabajoDAO();
 
 export const obtenerTodos = async (req, res) => {
   try {
-    const trabajos = await dao.listarTrabajos(); // <-- esta función sí devuelve el formato correcto
+    const trabajos = await dao.listarTrabajos();
     res.json(trabajos);
   } catch (error) {
     console.error("❌ Error general en obtenerTodos:", error);
@@ -30,7 +30,7 @@ export const obtenerPorId = async (req, res) => {
 
 export const crear = async (req, res) => {
   try {
-    const error = await dao.insertarTrabajo(req.body); // ✅ Usa el DAO, no TrabajoClase directo
+    const error = await dao.insertarTrabajo(req.body);
     if (error) throw new Error(error);
     res.status(201).json({ message: 'Trabajo creado correctamente' });
   } catch (error) {

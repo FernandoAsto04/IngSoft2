@@ -11,13 +11,14 @@ export class TrabajoClase {
     this.ciclo = trabajoClase.ciclo;
     this.visible = trabajoClase.visible;
 
-    this.Areaid = trabajoClase.Areaid || trabajoClase.Area?.id;
-  this.Estadoid = trabajoClase.Estadoid || trabajoClase.Estado?.id;
-  this.Tipoid = trabajoClase.Tipoid || trabajoClase.Tipo?.id;
+    // Acepta el formato directo con ID (Areaid, Estadoid, Tipoid)
+    this.Areaid = trabajoClase.Areaid || trabajoClase.area?.id;
+    this.Estadoid = trabajoClase.Estadoid || trabajoClase.estado?.id;
+    this.Tipoid = trabajoClase.Tipoid || trabajoClase.tipo?.id;
 
-  this.area = trabajoClase.area || trabajoClase.Area || null;
-  this.estado = trabajoClase.estado || trabajoClase.Estado || null;
-  this.tipo = trabajoClase.tipo || trabajoClase.Tipo || null;
+    this.area = trabajoClase.area || null;
+    this.estado = trabajoClase.estado || null;
+    this.tipo = trabajoClase.tipo || null;
   }
 
 
