@@ -17,6 +17,6 @@ export const Trabajo = sequelize.define(
         visible: DataTypes.BOOLEAN,
     }, {
         timestamps:false,
-        freezeTableName: true 
+        freezeTableName: true
     }
 );

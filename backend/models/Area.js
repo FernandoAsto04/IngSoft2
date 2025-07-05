@@ -26,4 +26,3 @@ Trabajo.belongsTo(Area, {
     foreignKey: "Areaid",
     targetKey: "id"
 });
-
