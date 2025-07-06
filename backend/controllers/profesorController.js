@@ -67,3 +67,20 @@ export const mostrarDatos = async (req, res) => {
     res.status(500).json({ error: "Error al mostrar datos", message: error.message });
   }
 };
+
+export const buscarPorLineas = async (req, res) => {
+  try {
+    console.log("📥 Body recibido:", req.body);
+
+    const { lineas = [] } = req.body;
+
+    const profesores = await dao.buscarPorLineas(lineas);
+
+    res.json(profesores);
+  } catch (error) {
+    res.status(500).json({
+      error: "Error al buscar profesores por líneas",
+      message: error.message
+    });
+  }
+};

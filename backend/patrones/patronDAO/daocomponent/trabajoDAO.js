@@ -61,24 +61,7 @@ export class TrabajoDAO {
   }
 
   async filtrarTrabajosPorCicloYArea(ciclos = [], temas = []) {
-    const where = { visible: true };
-
-    if (ciclos.length) {
-      where.ciclo = { [Op.in]: ciclos };
-    }
-
-    if (temas.length) {
-      where.AreaId = { [Op.in]: temas };
-    }
-
-    return await Trabajo.findAll({
-      where,
-      include: [
-        { model: Area, attributes: ['id', 'nombre'] },
-        { model: Estado, attributes: ['id', 'nombre'] },
-        { model: Tipo, attributes: ['id', 'nombre'] }
-      ],
-      order: [['fecharegistro', 'DESC']]
-    });
+    return await TrabajoClase.buscarPorCicloYArea(ciclos, temas);
   }
+
 }

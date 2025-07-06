@@ -86,7 +86,7 @@ export default function ResultTemas({ usuario }) {
         </div>
 
         <button
-          onClick={() => navigate("/buscartema")}
+          onClick={() => navigate("/buscar-tema")}
           style={{
             backgroundColor: "#fff",
             color: "#ff7f00",
@@ -164,8 +164,8 @@ export default function ResultTemas({ usuario }) {
               <p><b>Fecha:</b> {trabajo.fecharegistro?.split("T")[0]}</p>
               <p><b>Palabras clave:</b> {trabajo.palabrasclave || "—"}</p>
               <p><b>Ciclo:</b> {trabajo.ciclo}</p>
-              <p><b>Área:</b> {trabajo.Area?.nombre || "—"}</p>
-              <p><b>Estado:</b> {trabajo.Estado?.nombre || "—"}</p>
+              <p><b>Área:</b> {trabajo.area?.nombre || "—"}</p>
+              <p><b>Estado:</b> {trabajo.estado?.nombre || "—"}</p>
               <p><b>Observaciones:</b> {trabajo.observaciones || "—"}</p>
             </div>
           ))

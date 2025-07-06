@@ -21,10 +21,10 @@ export const Asesoria = sequelize.define(
 //Relacion Profesor - Asesoria
 Profesor.hasMany(Asesoria, {
     foreignKey:"Profesorid",
-    sourceKey: "id"
+    as: "Asesorias"
 });
 
 Asesoria.belongsTo(Profesor, {
     foreignKey: "Profesorid",
-    targetKey: "id"
+    as: "Profesor"
 });

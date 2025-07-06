@@ -12,10 +12,12 @@ export default function ResultProfesores({ usuario }) {
       if (!state?.lineaIds?.length) return;
 
       try {
-        const res = await axios.post("http://localhost:3002/profesores/lineas", {
-          lineaIds: state.lineaIds,
+        console.log("📤 Enviando líneaIds:", state?.lineaIds);
+        const res = await axios.post("http://localhost:3002/profesores/buscar-por-lineas", {
+          lineas: state.lineaIds,
         });
         setProfesores(res.data);
+        console.log("📦 Profesores recibidos:", res.data);
       } catch (error) {
         console.error("Error al obtener profesores:", error);
       }
@@ -24,6 +26,9 @@ export default function ResultProfesores({ usuario }) {
     fetchProfesores();
   }, [state]);
 
+  <pre style={{ background: "#eee", padding: "20px", borderRadius: "10px" }}>
+  {JSON.stringify(profesores, null, 2)}
+  </pre>
   return (
     <div
       style={{
@@ -130,7 +135,7 @@ export default function ResultProfesores({ usuario }) {
           PROFESORES ENCONTRADOS
         </h2>
 
-        {profesores.filter(p => p.Usuario).length === 0 ? (
+        {profesores.length === 0 ? (
           <p
             style={{
               backgroundColor: "rgba(255,255,255,0.9)",
@@ -162,10 +167,10 @@ export default function ResultProfesores({ usuario }) {
                 </h3>
                 <p><b>Correo:</b> {prof.Usuario.email}</p>
                 <p><b>Líneas:</b>{" "}
-                  {prof.AreasAsignadas?.[0]?.Lineas?.map(l => l.nombre).join(", ") || "—"}
+                  {prof.Areas?.[0]?.Lineas?.map(l => l.nombre).join(", ") || "—"}
                 </p>
                 <p><b>Horario:</b> {prof.Asesorias?.[0]?.horario || "—"}</p>
-                <p><b>Lugar:</b> {prof.Asesorias?.[0]?.lugar || "—"}</p>
+                <p><b>Salón:</b> {prof.Asesorias?.[0]?.lugar || "—"}</p>
                 <p><b>Link de asesoría:</b>{" "}
                   {prof.Asesorias?.[0]?.link ? (
                     <a href={prof.Asesorias[0].link} target="_blank" rel="noreferrer">

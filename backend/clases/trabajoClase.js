@@ -1,4 +1,9 @@
 import { Trabajo } from "../models/Trabajo.js";
+import { Op } from "sequelize";
+import { Area } from "../models/Area.js";
+import { Estado } from "../models/Estado.js";
+import { Tipo } from "../models/Tipo.js";
+
 
 export class TrabajoClase {
   constructor(trabajoClase) {
@@ -104,5 +109,35 @@ export class TrabajoClase {
       const instancia = new TrabajoClase(trabajo);
       return instancia.mostrarDatos();
     });
+  }
+
+
+  static async buscarPorCicloYArea(ciclos = [], areaIds = []) {
+    try {
+      const where = { visible: true };
+
+      if (ciclos.length) {
+        where.ciclo = { [Op.in]: ciclos };
+      }
+
+      if (areaIds.length) {
+        where.Areaid = { [Op.in]: areaIds };
+      }
+
+      const trabajos = await Trabajo.findAll({
+        where,
+        include: [
+          { model: Area, as: "Area", attributes: ["id", "nombre"] },
+          { model: Estado, as: "Estado", attributes: ["id", "nombre"] },
+          { model: Tipo, as: "Tipo", attributes: ["id", "nombre"] }
+        ],
+        order: [["fecharegistro", "DESC"]]
+      });
+
+      return TrabajoClase.Trabajos(trabajos);
+    } catch (error) {
+      console.error("Error en buscarPorCicloYArea:", error);
+      throw new Error("No se pudieron obtener los trabajos filtrados.");
+    }
   }
 }
