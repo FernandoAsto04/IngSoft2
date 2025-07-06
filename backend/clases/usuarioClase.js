@@ -7,7 +7,7 @@ export class UsuarioClase {
     this.contrasenia = usuarioEntidad.contrasenia;
     this.rol = usuarioEntidad.rol;
 
-    // Relaciones opcionales
+    
     this.alumnos = usuarioEntidad.Alumnos || [];
     this.profesores = usuarioEntidad.Profesores || [];
     this.administradores = usuarioEntidad.Administradores || [];
