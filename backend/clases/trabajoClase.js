@@ -116,14 +116,37 @@ export class TrabajoClase {
     try {
       const where = { visible: true };
 
-      if (ciclos.length) {
-        where.ciclo = { [Op.in]: ciclos };
+      // 🧠 Camino 1: Validar ciclos
+      if (!Array.isArray(ciclos)) {
+        console.warn("❌ ciclos no es un arreglo");
+        return [];
       }
 
-      if (areaIds.length) {
-        where.Areaid = { [Op.in]: areaIds };
+      if (ciclos.length > 0) {
+        const ciclosValidos = ciclos.filter(c => /^20\d{2}-[12]$/.test(c));
+        if (ciclosValidos.length === 0) {
+          console.warn("⚠️ Ningún ciclo tiene formato válido");
+          return [];
+        }
+        where.ciclo = { [Op.in]: ciclosValidos };
       }
 
+      // 🧠 Camino 2: Validar áreas
+      if (!Array.isArray(areaIds)) {
+        console.warn("❌ areaIds no es un arreglo");
+        return [];
+      }
+
+      if (areaIds.length > 0) {
+        const areasValidas = areaIds.filter(id => Number.isInteger(id));
+        if (areasValidas.length === 0) {
+          console.warn("⚠️ Ningún área es válida");
+          return [];
+        }
+        where.Areaid = { [Op.in]: areasValidas };
+      }
+
+      // 🧠 Camino 3: Ejecutar búsqueda
       const trabajos = await Trabajo.findAll({
         where,
         include: [
@@ -134,10 +157,16 @@ export class TrabajoClase {
         order: [["fecharegistro", "DESC"]]
       });
 
+      // 🧠 Camino 4: Validar resultados
+      if (trabajos.length === 0) {
+        console.warn("⚠️ No se encontraron trabajos con los filtros dados");
+      }
+
       return TrabajoClase.Trabajos(trabajos);
     } catch (error) {
-      console.error("Error en buscarPorCicloYArea:", error);
+      console.error("❌ Error en buscarPorCicloYArea:", error);
       throw new Error("No se pudieron obtener los trabajos filtrados.");
     }
   }
+
 }

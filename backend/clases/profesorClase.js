@@ -24,45 +24,63 @@ export class ProfesorClase extends UsuarioClase {
   }
 
   static async buscarPorLineas(lineaIds = []) {
-    console.log("🔍 Línea IDs recibidos:", lineaIds);
+  console.log("🔍 Línea IDs recibidos:", lineaIds);
 
-    if (!Array.isArray(lineaIds) || lineaIds.length === 0) return [];
-
-    const lineas = await Linea.findAll({
-      where: { id: lineaIds },
-      attributes: ["Areaid"]
-    });
-
-    const areaIds = lineas.map((l) => l.Areaid);
-    if (areaIds.length === 0) return [];
-
-    const profesores = await Profesor.findAll({
-      include: [
-        {
-          model: Area,
-          where: { id: { [Op.in]: areaIds } },
-          through: { attributes: [] },
-          include: [
-            {
-              model: Linea,
-              attributes: ["nombre"]
-            }
-          ]
-        },
-        {
-          model: Asesoria,
-          as: "Asesorias",
-          attributes: ["horario", "lugar", "link"]
-        },
-        {
-          model: Usuario,
-          attributes: ["nombres", "apellidos", "email"]
-        }
-      ]
-    });
-    console.log("📦 Profesores encontrados:", profesores.length);
-    return profesores;
+  if (!Array.isArray(lineaIds)) {
+    console.warn("líneaIds no es un arreglo");
+    return [];
   }
+
+  if (lineaIds.length === 0) {
+    console.warn("líneaIds está vacío");
+    return [];
+  }
+
+  const lineas = await Linea.findAll({
+    where: { id: lineaIds },
+    attributes: ["Areaid"]
+  });
+
+  const areaIds = lineas.map((l) => l.Areaid);
+
+  if (areaIds.length === 0) {
+    console.warn("No se encontraron áreas para las líneas dadas");
+    return [];
+  }
+
+  const profesores = await Profesor.findAll({
+    include: [
+      {
+        model: Area,
+        where: { id: { [Op.in]: areaIds } },
+        through: { attributes: [] },
+        include: [
+          {
+            model: Linea,
+            attributes: ["nombre"]
+          }
+        ]
+      },
+      {
+        model: Asesoria,
+        as: "Asesorias",
+        attributes: ["horario", "lugar", "link"]
+      },
+      {
+        model: Usuario,
+        attributes: ["nombres", "apellidos", "email"]
+      }
+    ]
+  });
+
+  console.log("📦 Profesores encontrados:", profesores.length);
+
+  if (profesores.length === 0) {
+    console.warn("⚠️ No se encontraron profesores para las áreas dadas");
+  }
+
+  return profesores;
+}
 
 
 }
