@@ -64,50 +64,62 @@ export class TrabajoClase {
       throw new Error("Tipo no válido.");
     }
 
-    try {
-      const nuevoTrabajo = await Trabajo.create({
-        titulo: this.titulo,
-        descripcion: this.descripcion,
-        fecharegistro: new Date(this.fecharegistro),
-        observaciones: this.observaciones,
-        palabrasclave: this.palabrasclave,
-        ciclo: this.ciclo,
-        visible: this.visible,
-        Areaid: this.Areaid,
-        Estadoid: this.Estadoid,
-        Tipoid: this.Tipoid,
-      });
-
-      this.id = nuevoTrabajo.id;
-      return nuevoTrabajo;
-    } catch (error) {
-      console.error("Error en guardarTrabajo:", error);
-      throw new Error("Error al guardar el trabajo en la base de datos.");
-    }
-  }
-
-
-  mostrarDatos() {
-    return {
-      id: this.id,
+    const nuevoTrabajo = await Trabajo.create({
       titulo: this.titulo,
       descripcion: this.descripcion,
-      fecharegistro: this.fecharegistro,
+      fecharegistro: new Date(this.fecharegistro),
       observaciones: this.observaciones,
       palabrasclave: this.palabrasclave,
       ciclo: this.ciclo,
       visible: this.visible,
-      area: this.area ? { id: this.area.id, nombre: this.area.nombre } : null,
-      estado: this.estado ? { id: this.estado.id, nombre: this.estado.nombre } : null,
-      tipo: this.tipo ? { id: this.tipo.id, nombre: this.tipo.nombre } : null,
-    };
+      Areaid: this.Areaid,
+      Estadoid: this.Estadoid,
+      Tipoid: this.Tipoid,
+    });
+
+    this.id = nuevoTrabajo.id;
+    return nuevoTrabajo;
   }
+
+
+  mostrarDatosTrabajo() {
+  let tituloFinal = this.titulo;
+  let cicloFinal = this.ciclo;
+  let visibleFinal = this.visible;
+
+  if (!this.titulo || this.titulo.trim().length === 0) {
+    tituloFinal = "Sin título";
+  }
+  
+  if (!/^20\d{2}-[12]$/.test(this.ciclo)) {
+    cicloFinal = null;
+  }
+
+  if (typeof this.visible !== "boolean") {
+    visibleFinal = false;
+  }
+
+  return {
+    id: this.id,
+    titulo: tituloFinal,
+    descripcion: this.descripcion,
+    fecharegistro: this.fecharegistro,
+    observaciones: this.observaciones,
+    palabrasclave: this.palabrasclave,
+    ciclo: cicloFinal,
+    visible: visibleFinal,
+    area: this.area ? { id: this.area.id, nombre: this.area.nombre } : null,
+    estado: this.estado ? { id: this.estado.id, nombre: this.estado.nombre } : null,
+    tipo: this.tipo ? { id: this.tipo.id, nombre: this.tipo.nombre } : null,
+  };
+}
+
 
   static Trabajos(listaTrabajos) {
     return listaTrabajos.map((trabajo) => {
-      console.log("Trabajo bruto:", trabajo); // 👈 pon esto
+      console.log("Trabajo bruto:", trabajo); 
       const instancia = new TrabajoClase(trabajo);
-      return instancia.mostrarDatos();
+      return instancia.mostrarDatosTrabajo();
     });
   }
 

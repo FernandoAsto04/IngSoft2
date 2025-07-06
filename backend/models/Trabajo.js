@@ -20,4 +20,3 @@ export const Trabajo = sequelize.define(
         freezeTableName: true
     }
 );
-
