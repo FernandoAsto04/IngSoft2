@@ -64,21 +64,26 @@ export class TrabajoClase {
       throw new Error("Tipo no válido.");
     }
 
-    const nuevoTrabajo = await Trabajo.create({
-      titulo: this.titulo,
-      descripcion: this.descripcion,
-      fecharegistro: new Date(this.fecharegistro),
-      observaciones: this.observaciones,
-      palabrasclave: this.palabrasclave,
-      ciclo: this.ciclo,
-      visible: this.visible,
-      Areaid: this.Areaid,
-      Estadoid: this.Estadoid,
-      Tipoid: this.Tipoid,
-    });
+    try {
+      const nuevoTrabajo = await Trabajo.create({
+        titulo: this.titulo,
+        descripcion: this.descripcion,
+        fecharegistro: new Date(this.fecharegistro),
+        observaciones: this.observaciones,
+        palabrasclave: this.palabrasclave,
+        ciclo: this.ciclo,
+        visible: this.visible,
+        Areaid: this.Areaid,
+        Estadoid: this.Estadoid,
+        Tipoid: this.Tipoid,
+      });
 
-    this.id = nuevoTrabajo.id;
-    return nuevoTrabajo;
+      this.id = nuevoTrabajo.id;
+      return nuevoTrabajo;
+    } catch (error) {
+      console.error("Error en guardarTrabajo:", error);
+      throw new Error("Error al guardar el trabajo en la base de datos.");
+    }
   }
 
 
