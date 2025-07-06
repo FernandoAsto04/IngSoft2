@@ -6,6 +6,7 @@ import { TrabajoClase } from "../../../clases/trabajoClase.js";
 import { Op } from 'sequelize';
 
 export class TrabajoDAO {
+  
  async listarTrabajos() {
   const trabajos = await Trabajo.findAll({
   include: [

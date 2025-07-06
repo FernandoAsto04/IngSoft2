@@ -88,24 +88,44 @@ export class TrabajoClase {
 
 
   mostrarDatos() {
-    return {
-      id: this.id,
-      titulo: this.titulo,
-      descripcion: this.descripcion,
-      fecharegistro: this.fecharegistro,
-      observaciones: this.observaciones,
-      palabrasclave: this.palabrasclave,
-      ciclo: this.ciclo,
-      visible: this.visible,
-      area: this.area ? { id: this.area.id, nombre: this.area.nombre } : null,
-      estado: this.estado ? { id: this.estado.id, nombre: this.estado.nombre } : null,
-      tipo: this.tipo ? { id: this.tipo.id, nombre: this.tipo.nombre } : null,
-    };
+  let tituloFinal = this.titulo;
+  let cicloFinal = this.ciclo;
+  let visibleFinal = this.visible;
+
+  // Condicional 1: Si el título está vacío o solo espacios, usar "Sin título"
+  if (!this.titulo || this.titulo.trim().length === 0) {
+    tituloFinal = "Sin título";
   }
+
+  // Condicional 2: Si el ciclo no tiene el formato correcto (ej: 2025-1), mostrar null
+  if (!/^20\d{2}-[12]$/.test(this.ciclo)) {
+    cicloFinal = null;
+  }
+
+  // Condicional 3: Si visible no es booleano, forzar a false
+  if (typeof this.visible !== "boolean") {
+    visibleFinal = false;
+  }
+
+  return {
+    id: this.id,
+    titulo: tituloFinal,
+    descripcion: this.descripcion,
+    fecharegistro: this.fecharegistro,
+    observaciones: this.observaciones,
+    palabrasclave: this.palabrasclave,
+    ciclo: cicloFinal,
+    visible: visibleFinal,
+    area: this.area ? { id: this.area.id, nombre: this.area.nombre } : null,
+    estado: this.estado ? { id: this.estado.id, nombre: this.estado.nombre } : null,
+    tipo: this.tipo ? { id: this.tipo.id, nombre: this.tipo.nombre } : null,
+  };
+}
+
 
   static Trabajos(listaTrabajos) {
     return listaTrabajos.map((trabajo) => {
-      console.log("Trabajo bruto:", trabajo); // 👈 pon esto
+      console.log("Trabajo bruto:", trabajo); 
       const instancia = new TrabajoClase(trabajo);
       return instancia.mostrarDatos();
     });

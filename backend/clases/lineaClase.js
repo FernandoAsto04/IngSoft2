@@ -4,3 +4,4 @@ export class LineaClase {
     this.nombre = lineaClase.nombre;
     this.area = lineaClase.Area;
   }
+}

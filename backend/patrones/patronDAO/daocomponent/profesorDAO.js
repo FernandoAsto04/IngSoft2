@@ -6,6 +6,7 @@ import { Usuario } from "../daoto/UsuarioTO.js";
 import { ProfesorClase } from "../../../clases/profesorClase.js";
 
 export class ProfesorDAO {
+  
   async buscarPorLineas(lineaIds) {
     return await ProfesorClase.buscarPorLineas(lineaIds);
   }
