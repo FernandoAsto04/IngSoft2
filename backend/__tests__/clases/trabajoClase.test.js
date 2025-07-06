@@ -20,8 +20,8 @@ describe('TrabajoClase', () => {
     await Estado.destroy({ where: {} });
     await Tipo.destroy({ where: {} });
 
-    area = await Area.create({ nombre: 'Ciencias' });
-    estado = await Estado.create({ nombre: 'Aprobado' });
+    area = await Area.create({ nombre: 'Sistemas de TI' });
+    estado = await Estado.create({ nombre: 'Terminado' });
     tipo = await Tipo.create({ nombre: 'Tesis' });
   });
 
@@ -35,7 +35,7 @@ describe('TrabajoClase', () => {
         titulo: 'Trabajo de Prueba',
         descripcion: 'Descripción suficientemente larga',
         fecharegistro: new Date().toISOString(),
-        observaciones: 'Ninguna',
+        observaciones: 'Ninguna critica',
         palabrasclave: 'prueba, test',
         ciclo: '2024-1',
         visible: true,
