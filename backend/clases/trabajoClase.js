@@ -87,17 +87,14 @@ export class TrabajoClase {
   let cicloFinal = this.ciclo;
   let visibleFinal = this.visible;
 
-  // Condicional 1: Si el título está vacío o solo espacios, usar "Sin título"
   if (!this.titulo || this.titulo.trim().length === 0) {
     tituloFinal = "Sin título";
   }
-
-  // Condicional 2: Si el ciclo no tiene el formato correcto (ej: 2025-1), mostrar null
+  
   if (!/^20\d{2}-[12]$/.test(this.ciclo)) {
     cicloFinal = null;
   }
 
-  // Condicional 3: Si visible no es booleano, forzar a false
   if (typeof this.visible !== "boolean") {
     visibleFinal = false;
   }
