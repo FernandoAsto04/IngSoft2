@@ -82,7 +82,7 @@ export class TrabajoClase {
   }
 
 
-  mostrarDatos() {
+  mostrarDatosTrabajo() {
   let tituloFinal = this.titulo;
   let cicloFinal = this.ciclo;
   let visibleFinal = this.visible;
@@ -122,7 +122,7 @@ export class TrabajoClase {
     return listaTrabajos.map((trabajo) => {
       console.log("Trabajo bruto:", trabajo); 
       const instancia = new TrabajoClase(trabajo);
-      return instancia.mostrarDatos();
+      return instancia.mostrarDatosTrabajo();
     });
   }
 
